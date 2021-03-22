@@ -50,4 +50,14 @@ public class Validator {
             }
         }
     }
+
+    public void validateId(Long id) throws ValidationException {
+        LOGGER.trace("Validating id of the horse.");
+        if (id == null){
+            throw new NullPointerException("The horse needs an id.");
+        }
+        if (id <= 0){
+            throw new ValidationException("The id of the horse must be greater than 0.");
+        }
+    }
 }
