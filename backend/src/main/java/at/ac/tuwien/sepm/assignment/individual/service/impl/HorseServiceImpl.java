@@ -28,7 +28,7 @@ public class HorseServiceImpl implements HorseService {
     @Override
     public Horse createHorse(Horse horse) {
         LOGGER.trace("Creating a horse with name: {}", horse.getName());
-        // validator.validateNewHorse(horse);
+        validator.validateNewHorse(horse);
         try {
             return dao.createHorse(horse);
         } catch (PersistenceException e) {
