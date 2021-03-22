@@ -14,6 +14,8 @@ public class Horse {
     private Gender gender;
     private Long sport;
 
+    public Horse(){}
+
     public Horse(Long id, String name, String description, LocalDate birthday, Gender gender, Long sport) {
         this.id = id;
         this.name = name;
