@@ -26,13 +26,23 @@ public interface HorseService {
     Horse getHorseById(Long id) throws ValidationException, PersistenceException, NotFoundException;
 
     /**
-     * Edits an existing horse with given parameters in data base.
+     * Edit an existing horse with given parameters in database.
      *
-     * @param horse horse that should be edited in data base.
-     * @return horse that was edited in data base.
+     * @param horse that should be edited in database.
+     * @return horse that was edited in database.
      * @throws ValidationException  will be thrown if the parameters of horse are not valid.
      * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
      * @throws NotFoundException    will be thrown if the horse could not be found.
      */
     Horse editHorse(Horse horse) throws PersistenceException, NotFoundException, ValidationException;
+
+    /**
+     * Delete the horse with given ID.
+     *
+     * @param id of the horse which should be deleted.
+     * @throws ValidationException  will be thrown if the parameters of horse are not valid.
+     * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     * @throws NotFoundException    will be thrown if the horse could not be found.
+     */
+    void deleteHorse(Long id) throws PersistenceException, NotFoundException, ValidationException;
 }
