@@ -25,7 +25,7 @@ public interface HorseDao {
     Horse getHorseById(Long id) throws PersistenceException, NotFoundException;
 
     /**
-     * Edits an existing horse with given parameters in database.
+     * Edit an existing horse with given parameters in database.
      *
      * @param horse that should be edited in database.
      * @return horse that was edited in database.
@@ -33,4 +33,13 @@ public interface HorseDao {
      * @throws NotFoundException will be thrown if the horse could not be found.
      */
     Horse editHorse(Horse horse) throws PersistenceException, NotFoundException;
+
+    /**
+     * Delete the horse with given ID.
+     *
+     * @param id of the horse which should be deleted.
+     * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     * @throws NotFoundException will be thrown if the horse could not be found.
+     */
+    void deleteHorse(Long id) throws PersistenceException, NotFoundException;
 }

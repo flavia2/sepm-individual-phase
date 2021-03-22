@@ -92,6 +92,24 @@ public class HorseJdbcDao implements HorseDao {
         return getHorseById(horse.getId());
     }
 
+    @Override
+    public void deleteHorse(Long id) throws PersistenceException, NotFoundException {
+        LOGGER.trace("Deleting the horse with id {}", id);
+        if (getHorseById(id)!= null) {
+            final String deleteSql = "DELETE FROM " + TABLE_NAME + " WHERE id=?";
+
+            try {
+                jdbcTemplate.update(connection -> {
+                    PreparedStatement pSt = connection.prepareStatement(deleteSql);
+                    pSt.setLong(1, id);
+                    return pSt;
+                });
+            } catch (DataAccessException e) {
+                throw new PersistenceException("During deleting horse with id \"" + id + "\" an error occurred while accessing the database.", e);
+            }
+        }
+    }
+
     private Horse mapRow(ResultSet resultSet, int i) throws SQLException {
         LOGGER.trace("Mapping through all SQL columns to get value of each column.");
         final Horse horse = new Horse();
