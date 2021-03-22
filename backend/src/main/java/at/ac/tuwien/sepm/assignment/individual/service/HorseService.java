@@ -23,5 +23,16 @@ public interface HorseService {
      * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
      * @throws NotFoundException    will be thrown if the horse could not be found.
      */
-    Horse getHorseById(Long id) throws PersistenceException, NotFoundException, ValidationException;
+    Horse getHorseById(Long id) throws ValidationException, PersistenceException, NotFoundException;
+
+    /**
+     * Edits an existing horse with given parameters in data base.
+     *
+     * @param horse horse that should be edited in data base.
+     * @return horse that was edited in data base.
+     * @throws ValidationException  will be thrown if the parameters of horse are not valid.
+     * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     * @throws NotFoundException    will be thrown if the horse could not be found.
+     */
+    Horse editHorse(Horse horse) throws PersistenceException, NotFoundException, ValidationException;
 }

@@ -50,4 +50,17 @@ public class HorseServiceImpl implements HorseService {
             throw e;
         }
     }
+
+    @Override
+    public Horse editHorse(Horse horse) throws PersistenceException, NotFoundException, ValidationException {
+        LOGGER.trace("Editing the horse \"{}\" with id: {}", horse.getName(), horse.getId());
+        validator.validateNewHorse(horse);
+        try {
+            return dao.editHorse(horse);
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (NotFoundException e){
+            throw e;
+        }
+    }
 }
