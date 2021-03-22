@@ -35,7 +35,7 @@ public class HorseJdbcDao implements HorseDao {
     @Override
     public Horse createHorse(Horse horse) throws PersistenceException {
         LOGGER.trace("Creating a horse with name: {}", horse.getName());
-        final String createSql = "INSERT INTO " + TABLE_NAME + " (name, description, birthday, gender, sport) VALUES (?,?,?,?,?);";
+        final String createSql = "INSERT INTO " + TABLE_NAME + " (name, description, birthday, gender, sport, parentId1, parentId2) VALUES (?,?,?,?,?,?,?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         try {
@@ -46,6 +46,8 @@ public class HorseJdbcDao implements HorseDao {
                 pSt.setObject(3, horse.getBirthday());
                 pSt.setString(4, String.valueOf(horse.getGender()));
                 pSt.setObject(5, horse.getSport());
+                pSt.setObject(6, horse.getParentId1());
+                pSt.setObject(7, horse.getParentId2());
                 return pSt;
             }, keyHolder);
         } catch (DataAccessException e) {
@@ -73,7 +75,7 @@ public class HorseJdbcDao implements HorseDao {
     @Override
     public Horse editHorse(Horse horse) throws PersistenceException, NotFoundException {
         LOGGER.trace("Editing the horse \"{}\" with id: {}", horse.getName(), horse.getId());
-        final String editSql = "UPDATE " + TABLE_NAME + " SET name=?, description=?, birthday=?, gender=?, sport=? WHERE id=?;";
+        final String editSql = "UPDATE " + TABLE_NAME + " SET name=?, description=?, birthday=?, gender=?, sport=?, parentId1=?, parentId2=? WHERE id=?;";
 
         try {
             jdbcTemplate.update(connection -> {
@@ -83,7 +85,9 @@ public class HorseJdbcDao implements HorseDao {
                 pSt.setObject(3, horse.getBirthday());
                 pSt.setString(4, String.valueOf(horse.getGender()));
                 pSt.setObject(5, horse.getSport());
-                pSt.setLong(6, horse.getId());
+                pSt.setObject(6, horse.getParentId1());
+                pSt.setObject(7, horse.getParentId2());
+                pSt.setLong(8, horse.getId());
                 return pSt;
             });
         } catch (DataAccessException e) {
@@ -119,6 +123,8 @@ public class HorseJdbcDao implements HorseDao {
         horse.setBirthday(resultSet.getDate("birthday").toLocalDate());
         horse.setGender(Enum.valueOf(Gender.class,resultSet.getString("gender")));
         horse.setSport(resultSet.getLong("sport"));
+        horse.setParentId1(resultSet.getLong("parentId1"));
+        horse.setParentId2(resultSet.getLong("parentId2"));
         return horse;
     }
 
