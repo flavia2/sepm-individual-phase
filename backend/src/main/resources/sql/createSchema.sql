@@ -12,5 +12,9 @@ CREATE TABLE IF NOT EXISTS Horse
     gender      ENUM('female', 'male') NOT NULL,
     birthday    DATE                    NOT NULL,
     sport       BIGINT                  NULL,
-    CONSTRAINT fk_sportId FOREIGN KEY (sport) REFERENCES sport(id) ON DELETE SET NULL
+    parentId1   BIGINT                  NULl,
+    parentId2   BIGINT                  NULL,
+    CONSTRAINT fk_sportId FOREIGN KEY (sport) REFERENCES sport(id) ON DELETE SET NULL,
+    CONSTRAINT fk_parentId1 FOREIGN KEY (parentId1) REFERENCES horse(id) ON DELETE SET NULL,
+    CONSTRAINT fk_parentId2 FOREIGN KEY (parentId2) REFERENCES horse(id) ON DELETE SET NULl
 );
