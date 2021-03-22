@@ -63,11 +63,33 @@ public class HorseJdbcDao implements HorseDao {
         try {
             horses = jdbcTemplate.query(querySql, this::mapRow, id);
         } catch (DataAccessException e){
-            throw new PersistenceException("During finding horse with \"" + id + "\" an error occurred while accessing the database.", e);
+            throw new PersistenceException("During finding horse with id \"" + id + "\" an error occurred while accessing the database.", e);
         }
         if (horses.isEmpty()) throw new NotFoundException("Could not find horse with id " + id);
 
         return horses.get(0);
+    }
+
+    @Override
+    public Horse editHorse(Horse horse) throws PersistenceException, NotFoundException {
+        LOGGER.trace("Editing the horse \"{}\" with id: {}", horse.getName(), horse.getId());
+        final String editSql = "UPDATE " + TABLE_NAME + " SET name=?, description=?, birthday=?, gender=?, sport=? WHERE id=?;";
+
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement pSt = connection.prepareStatement(editSql);
+                pSt.setString(1, horse.getName());
+                pSt.setObject(2, horse.getDescription());
+                pSt.setObject(3, horse.getBirthday());
+                pSt.setString(4, String.valueOf(horse.getGender()));
+                pSt.setObject(5, horse.getSport());
+                pSt.setLong(6, horse.getId());
+                return pSt;
+            });
+        } catch (DataAccessException e) {
+            throw new PersistenceException("During editing horse with id \"" + horse.getId() + "\" an error occurred while accessing the database.", e);
+        }
+        return getHorseById(horse.getId());
     }
 
     private Horse mapRow(ResultSet resultSet, int i) throws SQLException {

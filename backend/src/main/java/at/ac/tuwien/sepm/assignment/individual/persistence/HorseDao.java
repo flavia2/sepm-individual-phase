@@ -23,4 +23,14 @@ public interface HorseDao {
      * @throws NotFoundException will be thrown if the horse could not be found in the database.
      */
     Horse getHorseById(Long id) throws PersistenceException, NotFoundException;
+
+    /**
+     * Edits an existing horse with given parameters in database.
+     *
+     * @param horse that should be edited in database.
+     * @return horse that was edited in database.
+     * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     * @throws NotFoundException will be thrown if the horse could not be found.
+     */
+    Horse editHorse(Horse horse) throws PersistenceException, NotFoundException;
 }
