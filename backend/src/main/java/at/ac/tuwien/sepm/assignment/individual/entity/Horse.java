@@ -13,16 +13,20 @@ public class Horse {
     private LocalDate birthday;
     private Gender gender;
     private Long sport;
+    private Long parentId1;
+    private Long parentId2;
 
     public Horse(){}
 
-    public Horse(Long id, String name, String description, LocalDate birthday, Gender gender, Long sport) {
+    public Horse(Long id, String name, String description, LocalDate birthday, Gender gender, Long sport, Long parentId1, Long parentId2) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.birthday = birthday;
         this.gender = gender;
         this.sport = sport;
+        this.parentId1 = parentId1;
+        this.parentId2 = parentId2;
     }
 
     public Long getId() {
@@ -73,6 +77,22 @@ public class Horse {
         this.description = description;
     }
 
+    public Long getParentId1() {
+        return parentId1;
+    }
+
+    public void setParentId1(Long parentId1) {
+        this.parentId1 = parentId1;
+    }
+
+    public Long getParentId2() {
+        return parentId2;
+    }
+
+    public void setParentId2(Long parentId2) {
+        this.parentId2 = parentId2;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,7 +102,9 @@ public class Horse {
             Objects.equals(description, horse.description) &&
             birthday.equals(horse.birthday) &&
             Objects.equals(gender, horse.gender) &&
-            Objects.equals(sport, horse.sport);
+            Objects.equals(sport, horse.sport) &&
+            Objects.equals(parentId1,horse.parentId1) &&
+            Objects.equals(parentId2,horse.parentId2);
     }
 
     @Override
@@ -91,7 +113,7 @@ public class Horse {
     }
 
     protected String fieldsString() {
-        return "id=" + id + ", name='" + name + '\'' + ", description='" + description + '\'' + ", birthday=" + birthday + ", gender='" + gender + '\'' + ", sport='" + sport + '\'';
+        return "id=" + id + ", name='" + name + '\'' + ", description='" + description + '\'' + ", birthday=" + birthday + ", gender='" + gender + '\'' + ", sport='" + sport + '\'' + ", parentId1='" + parentId1 +'\''+ ", parentId2='" + parentId2 +'\'';
     }
 
     @Override
