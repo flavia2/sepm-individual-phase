@@ -17,6 +17,20 @@ public class Validator {
 
 
     public void validateNewSport(Sport sport) {
+        LOGGER.trace("Validating parameters of new sport created.");
+        if (sport.getName() == null){
+            throw new NullPointerException("The sport needs a name.");
+        }
+        if (sport.getName() != null) {
+            if (sport.getName().length() == 0 || sport.getName().length() > 255) {
+                throw new ValidationException("The name of the sport must be in the range between 1 and 255 characters.");
+            }
+        }
+        if (sport.getDescription() != null) {
+            if (sport.getDescription().length() <= 0 || sport.getDescription().length() > 500) {
+                throw new ValidationException("The description of the sport must be in the range between 1 and 500 characters.\"");
+            }
+        }
     }
 
     public void validateNewHorse(Horse horse) throws ValidationException, NullPointerException {
