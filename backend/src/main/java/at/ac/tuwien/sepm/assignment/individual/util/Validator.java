@@ -60,4 +60,28 @@ public class Validator {
             throw new ValidationException("The id of the horse must be greater than 0.");
         }
     }
+
+    public void validateSearch(Horse horse) throws ValidationException{
+        LOGGER.trace("Validating search parameters of a horse.");
+        if (horse.getName() != null) {
+            if (horse.getName().length() == 0 || horse.getName().length() > 255) {
+                throw new ValidationException("The name of the horse must be in the range between 1 and 255 characters.");
+            }
+        }
+        if (horse.getDescription() != null) {
+            if (horse.getDescription().length() > 500) {
+                throw new ValidationException("The description can only have up to 500 characters.");
+            }
+        }
+        if (horse.getGender()!= null){
+            if (!(horse.getGender().toString().equals("female") || horse.getGender().toString().equals("male"))) {
+                throw new ValidationException("The horse needs a gender." + horse.getGender());
+            }
+        }
+        if (horse.getBirthday() != null) {
+            if (horse.getBirthday().isBefore(LocalDate.of(1990, 1, 1)) || horse.getBirthday().isAfter(LocalDate.now())) {
+                throw new ValidationException("The horse´s age is not valid.");
+            }
+        }
+    }
 }

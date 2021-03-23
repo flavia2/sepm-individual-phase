@@ -81,7 +81,7 @@ public class HorseServiceImpl implements HorseService {
     @Override
     public List<Horse> searchHorse(Horse horse) throws PersistenceException, NotFoundException, ValidationException {
         LOGGER.trace("Searching for horses with following search parameters: name ({}), description ({}), birthday ({}), gender ({}), sport ({})", horse.getName(), horse.getDescription(), horse.getBirthday(), horse.getGender(), horse.getSport());
-        // validator.validateSearch(horse);
+        validator.validateSearch(horse);
         try {
             return dao.searchHorse(horse);
         } catch (PersistenceException e) {
