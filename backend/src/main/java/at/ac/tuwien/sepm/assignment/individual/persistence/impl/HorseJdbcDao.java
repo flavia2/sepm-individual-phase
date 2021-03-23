@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -114,6 +115,43 @@ public class HorseJdbcDao implements HorseDao {
         }
     }
 
+    @Override
+    public List<Horse> searchHorse(Horse horse) throws PersistenceException, NotFoundException {
+        LOGGER.trace("Searching for horses with following search parameters: name ({}), description ({}), birthday ({}), gender ({}), sport ({})", horse.getName(), horse.getDescription(), horse.getBirthday(), horse.getGender(), horse.getSport());
+        String searchSql = "SELECT * FROM " + TABLE_NAME + " WHERE UPPER(name) LIKE ?" +
+            " AND birthday <= ?" +
+            " AND gender LIKE ?";
+        String searchDescription = " AND UPPER(description) LIKE ?";
+        String searchSport = " AND sport = ?";
+        List<Horse> horses;
+        Object [] objects = {"%" +  ((horse.getName() == null) ? "" : horse.getName()).toUpperCase() + "%",
+            ((horse.getBirthday() == null) ? LocalDate.now() : horse.getBirthday()).toString(),
+            "%" +  ((horse.getGender() == null) ? "" : horse.getGender()) + "%"
+        };
+
+        if(horse.getDescription() != null){
+            searchSql += searchDescription;
+            objects = addOne(objects.length,objects,"%" + horse.getDescription().toUpperCase() + "%");
+        }
+        if(horse.getSport() != null){
+            searchSql += searchSport;
+            objects = addOne(objects.length,objects,horse.getSport());
+        }
+
+        try {
+            horses = jdbcTemplate.query(searchSql, this::mapRow, objects);
+        } catch (DataAccessException e){
+            throw new PersistenceException("Horse with following parameters could not be accessed: \n name:\"" + horse.getName() + "\" \n " +
+                "description:\"" + horse.getDescription() + "\" \n" +
+                "birthday:\"" + horse.getBirthday() + "\" \n" +
+                "gender:\"" + horse.getGender() + "\" \n" +
+                "sport:\"" + horse.getSport() + "\" \n", e);
+        }
+        if (horses.isEmpty()) throw new NotFoundException("Could not find any horse. ");
+
+        return horses;
+    }
+
     private Horse mapRow(ResultSet resultSet, int i) throws SQLException {
         LOGGER.trace("Mapping through all SQL columns to get value of each column.");
         final Horse horse = new Horse();
@@ -126,6 +164,18 @@ public class HorseJdbcDao implements HorseDao {
         horse.setParentId1(resultSet.getLong("parentId1"));
         horse.setParentId2(resultSet.getLong("parentId2"));
         return horse;
+    }
+
+    // Function to add x in arr
+    private static Object[] addOne(int n, Object array[], Object x){
+        LOGGER.trace("Adding one element to an object array.");
+        int i;
+        Object newArray[] = new Object[n + 1];
+
+        for (i = 0; i < n; i++)
+            newArray[i] = array[i];
+        newArray[n] = x;
+        return newArray;
     }
 
 }

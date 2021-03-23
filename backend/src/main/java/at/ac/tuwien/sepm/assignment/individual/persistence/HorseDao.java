@@ -4,6 +4,8 @@ import at.ac.tuwien.sepm.assignment.individual.entity.Horse;
 import at.ac.tuwien.sepm.assignment.individual.exception.NotFoundException;
 import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
 
+import java.util.List;
+
 public interface HorseDao {
     /**
      * Creates a horse with given parameters in database.
@@ -42,4 +44,14 @@ public interface HorseDao {
      * @throws NotFoundException will be thrown if the horse could not be found.
      */
     void deleteHorse(Long id) throws PersistenceException, NotFoundException;
+
+    /**
+     * Search for horses with given parameters.
+     *
+     * @param horse contains parameters of the horses that should be searched.
+     * @return a list of horses that matches the search parameters. If nothing matches all horses in database are returned.
+     * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     * @throws NotFoundException will be thrown if the horse could not be found.
+     */
+    List<Horse> searchHorse(Horse horse) throws PersistenceException, NotFoundException;
 }
