@@ -16,4 +16,13 @@ public interface SportDao {
      */
     Sport getOneById(Long id);
 
+    /**
+     * Creates a sport with given parameters in datastore.
+     *
+     * @param sport sport that should be created in datastore.
+     * @return sport that was created in datastore.
+     * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     */
+    Sport createSport(Sport sport) throws PersistenceException;
+
 }
