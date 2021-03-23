@@ -1,6 +1,8 @@
 package at.ac.tuwien.sepm.assignment.individual.service.impl;
 
 import at.ac.tuwien.sepm.assignment.individual.entity.Sport;
+import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
+import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 import at.ac.tuwien.sepm.assignment.individual.persistence.SportDao;
 import at.ac.tuwien.sepm.assignment.individual.service.SportService;
 import at.ac.tuwien.sepm.assignment.individual.util.Validator;
@@ -27,6 +29,17 @@ public class SportServiceImpl implements SportService {
     public Sport getOneById(Long id) {
         LOGGER.trace("getOneById({})", id);
         return dao.getOneById(id);
+    }
+
+    @Override
+    public Sport createSport(Sport sport) throws ValidationException, PersistenceException {
+        LOGGER.trace("Creating a sport with name: {}", sport.getName());
+        validator.validateNewSport(sport);
+        try{
+            return dao.createSport(sport);
+        } catch (PersistenceException e){
+            throw e;
+        }
     }
 
 }
