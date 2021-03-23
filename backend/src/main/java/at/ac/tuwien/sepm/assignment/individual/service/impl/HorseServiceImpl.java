@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 @Service
 public class HorseServiceImpl implements HorseService {
@@ -70,6 +71,19 @@ public class HorseServiceImpl implements HorseService {
         validator.validateId(id);
         try {
             dao.deleteHorse(id);
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (NotFoundException e){
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Horse> searchHorse(Horse horse) throws PersistenceException, NotFoundException, ValidationException {
+        LOGGER.trace("Searching for horses with following search parameters: name ({}), description ({}), birthday ({}), gender ({}), sport ({})", horse.getName(), horse.getDescription(), horse.getBirthday(), horse.getGender(), horse.getSport());
+        // validator.validateSearch(horse);
+        try {
+            return dao.searchHorse(horse);
         } catch (PersistenceException e) {
             throw e;
         } catch (NotFoundException e){
