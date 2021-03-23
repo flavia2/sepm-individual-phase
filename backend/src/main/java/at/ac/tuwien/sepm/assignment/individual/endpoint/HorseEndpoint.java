@@ -7,14 +7,19 @@ import at.ac.tuwien.sepm.assignment.individual.exception.NotFoundException;
 import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
 import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 import at.ac.tuwien.sepm.assignment.individual.service.HorseService;
+import at.ac.tuwien.sepm.assignment.individual.util.Gender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.invoke.MethodHandles;
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping(HorseEndpoint.BASE_URL)
@@ -111,6 +116,28 @@ public class HorseEndpoint {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         } catch (ValidationException e) {
             LOGGER.error("[ValidationException]: Error occurred in service layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
+        }
+    }
+
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    public List<HorseDto> searchHorse(@RequestParam(value = "name", required = false) String name,
+                                 @RequestParam(value = "description", required = false) String description,
+                                 @RequestParam(value = "birthday", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate birthday,
+                                 @RequestParam(value = "gender", required = false) Gender gender,
+                                 @RequestParam(value = "sport", required = false) @NumberFormat Long sport) {
+        LOGGER.info("GET (search) " + BASE_URL + "/{}", name);
+        try {
+            return horseMapper.entitiesToDto(horseService.searchHorse(horseMapper.paramsToEntity(name, description, birthday, gender, sport)));
+        } catch (PersistenceException e) {
+            LOGGER.error("[PersistenceException]: Error occured in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
+        } catch (NotFoundException e) {
+            LOGGER.error("[NotFoundException]: Error occured in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (ValidationException e) {
+            LOGGER.error("[ValidationException]: Error occured in service layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         }
     }
