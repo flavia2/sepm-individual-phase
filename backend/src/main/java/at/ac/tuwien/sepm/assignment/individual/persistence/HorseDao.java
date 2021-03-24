@@ -54,4 +54,13 @@ public interface HorseDao {
      * @throws NotFoundException will be thrown if the horse could not be found.
      */
     List<Horse> searchHorse(Horse horse) throws PersistenceException, NotFoundException;
+
+    /**
+     * Gets a list of all horses stored in database.
+     *
+     * @return all horses stored in database.
+     * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     * @throws NotFoundException will be thrown if the horse could not be found.
+     */
+    List<Horse> getAllHorses() throws PersistenceException, NotFoundException;
 }

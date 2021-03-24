@@ -141,4 +141,21 @@ public class HorseEndpoint {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         }
     }
+
+    @GetMapping
+    public List<HorseDto> getAllHorses() {
+        LOGGER.info("GET " + BASE_URL);
+        try {
+            return horseMapper.entitiesToDto(horseService.getAllHorses());
+        } catch (PersistenceException e) {
+            LOGGER.error("[PersistenceException]: Error occured in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
+        } catch (ValidationException e) {
+            LOGGER.error("[ValidationException]: Error occured in service layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
+        } catch (NotFoundException e) {
+            LOGGER.error("[NotFoundException]: Error occured in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
 }

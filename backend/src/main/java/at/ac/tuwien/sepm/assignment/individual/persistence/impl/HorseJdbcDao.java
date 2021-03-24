@@ -152,6 +152,22 @@ public class HorseJdbcDao implements HorseDao {
         return horses;
     }
 
+    @Override
+    public List<Horse> getAllHorses() throws PersistenceException, NotFoundException {
+        LOGGER.trace("Getting all horses from database.");
+        final String sql = "SELECT * FROM " + TABLE_NAME;
+        List<Horse> horses;
+        try {
+            horses = jdbcTemplate.query(sql, this::mapRow);
+        } catch (DataAccessException e){
+            throw new PersistenceException("Horse could not be found", e);
+        }
+
+        if (horses.isEmpty()) throw new NotFoundException("There are no horses stored in the database.");
+
+        return horses;
+    }
+
     private Horse mapRow(ResultSet resultSet, int i) throws SQLException {
         LOGGER.trace("Mapping through all SQL columns to get value of each column.");
         final Horse horse = new Horse();
@@ -160,9 +176,9 @@ public class HorseJdbcDao implements HorseDao {
         horse.setDescription(resultSet.getString("description"));
         horse.setBirthday(resultSet.getDate("birthday").toLocalDate());
         horse.setGender(Enum.valueOf(Gender.class,resultSet.getString("gender")));
-        horse.setSport(resultSet.getLong("sport"));
-        horse.setParentId1(resultSet.getLong("parentId1"));
-        horse.setParentId2(resultSet.getLong("parentId2"));
+        horse.setSport(resultSet.getLong("sport") == 0 ? null : resultSet.getLong("sport"));
+        horse.setParentId1(resultSet.getLong("parentId1") == 0 ? null : resultSet.getLong("parentId1"));
+        horse.setParentId2(resultSet.getLong("parentId2") == 0 ? null : resultSet.getLong("parentId2"));
         return horse;
     }
 

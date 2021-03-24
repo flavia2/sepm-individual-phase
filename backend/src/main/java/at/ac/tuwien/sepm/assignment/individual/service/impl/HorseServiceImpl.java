@@ -90,4 +90,17 @@ public class HorseServiceImpl implements HorseService {
             throw e;
         }
     }
+
+    @Override
+    public List<Horse> getAllHorses() {
+        LOGGER.trace("Getting all horses from the database.");
+        //validation is missing
+        try {
+            return dao.getAllHorses();
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (NotFoundException e){
+            throw e;
+        }
+    }
 }
