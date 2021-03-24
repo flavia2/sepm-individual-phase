@@ -11,30 +11,27 @@ export class SportComponent implements OnInit {
 
   error = false;
   errorMessage = '';
+  success = false;
   sport: Sport;
+  name: string;
+  description: string;
+
 
   constructor(private sportService: SportService) {
   }
 
   ngOnInit() {
-    this.loadSport(-1);
   }
 
-  /**
-   * Error flag will be deactivated, which clears the error message
-   */
-  vanishError() {
-    this.error = false;
-  }
-
-  /**
-   * Loads the sport for the specified id
-   *
-   * @param id the id of the sport
-   */
-  private loadSport(id: number) {
-    this.sportService.getSportById(id).subscribe(
+  private onAdd(){
+    const newSport = new Sport(0, this.name, this.description);
+    console.log(newSport);
+    this.sportService.createSport(newSport).subscribe(
       (sport: Sport) => {
+        this.success = true;
+        setTimeout(() => {
+          this.success = false;
+        }, 3000);
         this.sport = sport;
       },
       error => {
@@ -43,10 +40,12 @@ export class SportComponent implements OnInit {
     );
   }
 
-
   private defaultServiceErrorHandling(error: any) {
     console.log(error);
     this.error = true;
+    setTimeout(() => {
+      this.error = false;
+    }, 4000);
     if (error.status === 0) {
       // If status is 0, the backend is probably down
       this.errorMessage = 'The backend seems not to be reachable';
@@ -57,5 +56,4 @@ export class SportComponent implements OnInit {
       this.errorMessage = error.error.message;
     }
   }
-
 }

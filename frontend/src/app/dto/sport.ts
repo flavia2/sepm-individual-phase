@@ -1,4 +1,7 @@
-export interface Sport {
-  id: number;
-  name: string;
+export class Sport {
+  constructor(
+    public id: number,
+    public name: string,
+    public description: string) {
+  }
 }
