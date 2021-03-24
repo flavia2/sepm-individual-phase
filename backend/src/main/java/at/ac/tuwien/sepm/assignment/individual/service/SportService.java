@@ -5,6 +5,8 @@ import at.ac.tuwien.sepm.assignment.individual.exception.NotFoundException;
 import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
 import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 
+import java.util.List;
+
 public interface SportService {
 
 
@@ -27,4 +29,11 @@ public interface SportService {
      * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
      */
     Sport createSport(Sport sport) throws ValidationException, PersistenceException;
+    /**
+     * Gets a list of all sports stored in datastore.
+     *
+     * @return all sports stored in datastore.
+     * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     */
+    List<Sport> getAllSports();
 }

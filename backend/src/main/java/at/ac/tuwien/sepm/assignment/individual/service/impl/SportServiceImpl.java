@@ -1,12 +1,15 @@
 package at.ac.tuwien.sepm.assignment.individual.service.impl;
 
 import at.ac.tuwien.sepm.assignment.individual.entity.Sport;
+import at.ac.tuwien.sepm.assignment.individual.exception.NotFoundException;
 import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
 import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 import at.ac.tuwien.sepm.assignment.individual.persistence.SportDao;
 import at.ac.tuwien.sepm.assignment.individual.service.SportService;
 import at.ac.tuwien.sepm.assignment.individual.util.Validator;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,18 @@ public class SportServiceImpl implements SportService {
         try{
             return dao.createSport(sport);
         } catch (PersistenceException e){
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Sport> getAllSports() {
+        LOGGER.trace("Getting all sports.");
+        try {
+            return dao.getAllSports();
+        } catch (PersistenceException e){
+            throw e;
+        } catch (NotFoundException e){
             throw e;
         }
     }
