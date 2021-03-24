@@ -1,0 +1,78 @@
+<div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Error! </strong> {{ errorMessage }}
+</div>
+
+<div *ngIf="addSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+  Horse <span class="font-weight-bold">{{ horse.name }}</span> was successfully added!
+</div>
+
+<div *ngIf="router.url === '/horses/add' && horses">
+  <div *ngIf="horses">
+    <form id="addHorseForm" name="form" (ngSubmit)="onAdd()">
+      <div>
+        <h1>Add a new Horse:</h1>
+      </div>
+
+      <div>
+        <ul>
+          <li>
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="name"/>
+          </li>
+          <li>
+
+            <label for="description">Description:</label>
+            <input type="text" class="form-control" id="description" name="description" [(ngModel)]="description" value=""/>
+          </li>
+
+          <li>
+            <label for="birthday">Birthday:</label>
+            <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="birthday"/>
+          </li>
+
+          <li>
+            <label for="gender">Gender:</label>
+            <select name="gender" id="gender" class="form-control" [(ngModel)]="gender">
+              <option name="gender" value="female">female</option>
+              <option name="gender" value="male">male</option>
+            </select>
+          </li>
+
+          <li>
+            <label for="sport">Sport:</label>
+            <select name="sport" id="sport" class="form-control" [(ngModel)]="sport">
+              <option name="sport" *ngFor="let sport of sports" value="{{ sport.id }}">
+                {{ sport.name }}
+              </option>
+            </select>
+          </li>
+
+          <li>
+            <label for="mother">Mother:</label>
+            <select id="mother" name="mother" class="form-control" [(ngModel)]="parentId1">
+              <option name="mother" *ngFor="let horse of female" value="{{ horse.id }}">
+                {{ horse.name }}
+              </option>
+              <option name="mother" value=null>no Mother</option>
+            </select>
+          </li>
+
+          <li>
+            <label for="father">Father:</label>
+            <select id="father" name="father" class="form-control" [(ngModel)]="parentId2">
+              <option name="father" *ngFor="let horse of male" value="{{ horse.id }}">
+                {{ horse.name }}
+              </option>
+              <option name="father" value=null>no Father</option>
+            </select>
+          </li>
+
+          <li>
+            <input type="submit" value="Add" class="btn btn-primary"/>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+
+</div>
