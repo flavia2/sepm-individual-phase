@@ -2,7 +2,10 @@ package at.ac.tuwien.sepm.assignment.individual.endpoint;
 
 import at.ac.tuwien.sepm.assignment.individual.endpoint.dto.SportDto;
 import at.ac.tuwien.sepm.assignment.individual.endpoint.mapper.SportMapper;
+import at.ac.tuwien.sepm.assignment.individual.entity.Sport;
 import at.ac.tuwien.sepm.assignment.individual.exception.NotFoundException;
+import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
+import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 import at.ac.tuwien.sepm.assignment.individual.service.SportService;
 import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
@@ -34,6 +37,24 @@ public class SportEndpoint {
             return sportMapper.entityToDto(sportService.getOneById(id));
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error during reading sport", e);
+        }
+    }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public SportDto post(@RequestBody SportDto sportDto) {
+        LOGGER.info("POST " + BASE_URL + "/{}", sportDto.getName());
+        try {
+            Sport sport = sportMapper.dtoToEntity(sportDto);
+            return sportMapper.entityToDto(sportService.createSport(sport));
+        } catch (PersistenceException e) {
+            LOGGER.error("[PersistenceException]: Error occurred in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
+        } catch (ValidationException e) {
+            LOGGER.error("[ValidationException]: Error occurred in service layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
+        } catch (NullPointerException e){
+            LOGGER.error("[NullPointerException]: Error occurred in service layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 }
