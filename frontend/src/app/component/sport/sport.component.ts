@@ -39,6 +39,7 @@ export class SportComponent implements OnInit {
     this.sportService.createSport(newSport).subscribe(
       (sport: Sport) => {
         this.sports.push(sport);
+        this.resetForm();
         this.router.navigate(['/sports']);
         this.success = true;
         setTimeout(() => {
@@ -50,6 +51,10 @@ export class SportComponent implements OnInit {
         this.defaultServiceErrorHandling(error);
       }
     );
+  }
+  private resetForm(){
+    this.name = null;
+    this.description = null;
   }
 
   private defaultServiceErrorHandling(error: any) {
