@@ -6,6 +6,13 @@
   Sport <span class="font-weight-bold">{{ sport.name }}</span> was successfully added!
 </div>
 
+<div *ngIf="router.url === '/sports'">
+  <h1>All our sports:</h1>
+  <!--  <div *ngIf="!sport"><h3>There are currently no sports saved in our database</h3></div>-->
+  <app-sport-individual *ngFor="let sport of sports" [sport]="sport"></app-sport-individual>
+</div>
+
+<div *ngIf="router.url === '/sports/add'">
 <form (ngSubmit)="onAdd()">
   <div>
     <h1>Add a new Sport:</h1>
@@ -26,3 +33,4 @@
     </ul>
   </div>
 </form>
+</div>

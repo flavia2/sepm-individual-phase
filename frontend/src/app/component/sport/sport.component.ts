@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SportService} from '../../service/sport.service';
 import {Sport} from '../../dto/sport';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-sport',
@@ -13,14 +14,23 @@ export class SportComponent implements OnInit {
   errorMessage = '';
   success = false;
   sport: Sport;
+  sports: Sport[];
   name: string;
   description: string;
 
 
-  constructor(private sportService: SportService) {
+  constructor(private sportService: SportService, public router: Router) {
   }
 
   ngOnInit() {
+    this.sportService.getAllSports().subscribe(
+      sports => {
+        this.sports = sports;
+      },
+      error => {
+        this.defaultServiceErrorHandling(error);
+      }
+    );
   }
 
   private onAdd(){
@@ -28,6 +38,8 @@ export class SportComponent implements OnInit {
     console.log(newSport);
     this.sportService.createSport(newSport).subscribe(
       (sport: Sport) => {
+        this.sports.push(sport);
+        this.router.navigate(['/sports']);
         this.success = true;
         setTimeout(() => {
           this.success = false;
