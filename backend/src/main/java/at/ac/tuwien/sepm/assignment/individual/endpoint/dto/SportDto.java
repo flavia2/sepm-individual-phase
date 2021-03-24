@@ -5,6 +5,7 @@ import java.util.Objects;
 public class SportDto {
     private Long id;
     private String name;
+    private String description;
 
     public SportDto() {
     }
@@ -13,9 +14,10 @@ public class SportDto {
         this.name = name;
     }
 
-    public SportDto(Long id, String name) {
+    public SportDto(Long id, String name, String description) {
         this(name);
         this.id = id;
+        this.description = description;
     }
 
     public Long getId() {
@@ -30,13 +32,22 @@ public class SportDto {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SportDto sportDto = (SportDto) o;
         return Objects.equals(id, sportDto.id) &&
-            Objects.equals(name, sportDto.name);
+            Objects.equals(name, sportDto.name) &&
+            Objects.equals(description, sportDto.description);
     }
 
     @Override
@@ -45,7 +56,7 @@ public class SportDto {
     }
 
     private String fieldsString() {
-        return "id = " + id + ", name='" + name + '\'';
+        return "id = " + id + ", name='" + name + '\'' + ", description='" + description +"\'";
     }
 
     @Override
