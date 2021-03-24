@@ -18,5 +18,11 @@ public class SportMapper {
     public Sport dtoToEntity(SportDto sportDto) {
         return new Sport(sportDto.getId(), sportDto.getName(), sportDto.getDescription());
     }
-
+    public List<SportDto> entitiesToDto(List<Sport> sports) {
+        List<SportDto> sportDtos = new ArrayList<>();
+        for (Sport sport:sports){
+            sportDtos.add(entityToDto(sport));
+        }
+        return sportDtos;
+    }
 }

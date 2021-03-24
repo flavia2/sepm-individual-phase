@@ -8,6 +8,8 @@ import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
 import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 import at.ac.tuwien.sepm.assignment.individual.service.SportService;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,22 @@ public class SportEndpoint {
         } catch (NullPointerException e){
             LOGGER.error("[NullPointerException]: Error occurred in service layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        }
+    }
+    @GetMapping
+    public List<SportDto> getAllSports() {
+        LOGGER.info("GET " + BASE_URL);
+        try {
+            return sportMapper.entitiesToDto(sportService.getAllSports());
+        }catch (PersistenceException e) {
+            LOGGER.error("[PersistenceException]: Error occured in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
+        } catch (ValidationException e) {
+            LOGGER.error("[ValidationException]: Error occured in service layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
+        } catch (NotFoundException e) {
+            LOGGER.error("[NotFoundException]: Error occured in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 }
