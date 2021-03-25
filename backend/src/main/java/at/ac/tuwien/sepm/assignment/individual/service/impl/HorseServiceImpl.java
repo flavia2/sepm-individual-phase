@@ -103,4 +103,17 @@ public class HorseServiceImpl implements HorseService {
             throw e;
         }
     }
+
+    @Override
+    public List<Horse> getFamilyTreeHorse(Long id, Long generations) {
+        LOGGER.trace("Getting family tree for horse with: id({}), generations({})", id, generations);
+        validator.validateGenerations(generations);
+        try {
+            return dao.getFamilyTreeHorse(id, generations);
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (NotFoundException e){
+            throw e;
+        }
+    }
 }

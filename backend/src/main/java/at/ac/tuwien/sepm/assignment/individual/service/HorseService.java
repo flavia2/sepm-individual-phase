@@ -66,4 +66,15 @@ public interface HorseService {
      * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
      */
     List<Horse> getAllHorses();
+
+    /**
+     * Generate for specific horse
+     * @param id the search parameters for the horses
+     * @param generations contains number of generations that should be displayed.
+     * @return all horses in tree structure
+     * @throws PersistenceException will be thrown if something goes wrong during the database access.
+     * @throws NotFoundException   will be thrown if the horse could not be found in the database.
+     */
+    List<Horse> getFamilyTreeHorse(Long id, Long generations);
+
 }
