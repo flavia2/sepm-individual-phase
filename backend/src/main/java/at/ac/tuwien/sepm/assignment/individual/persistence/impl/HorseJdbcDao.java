@@ -168,6 +168,42 @@ public class HorseJdbcDao implements HorseDao {
         return horses;
     }
 
+    @Override
+    public List<Horse> getFamilyTreeHorse(Long id, Long generations) {
+        LOGGER.trace("Getting family tree for horse with: id({}), generations({})", id, generations);
+
+        String treeSql = "WITH RECURSIVE T (id, name, birthday, gender, parentId1, parentId2, generations) AS ("
+            + " SELECT id, name, birthday, gender, parentId1 , parentId2, 1 AS generations "
+            +  "FROM " + TABLE_NAME
+            + " WHERE id = ? "
+            + " UNION ALL "
+            + "SELECT h.id, h.name, h.birthday, h.gender, h.parentId1, h.parentId2, t.generations+1 "
+            + "FROM HORSE h, t "
+            +  "WHERE (h.id = t.parentId1 OR h.id = t.parentId2)) "
+            + "SELECT * FROM t";
+        final String generationsSql = " WHERE generations <= ?";
+        final String orderSql = " ORDER BY birthday DESC";
+
+        Object [] objects = {id};
+        if (generations != null){
+            treeSql += generationsSql + orderSql;
+            objects = addOne(objects.length,objects,generations);
+        } else {
+            treeSql += orderSql;
+        }
+
+        List<Horse> horses;
+
+        try {
+            horses = jdbcTemplate.query(treeSql,  this::mapTreeRow, objects);
+        } catch (DataAccessException e){
+            throw new PersistenceException("Could not get family tree of horse with id " + id, e);
+        }
+        if (horses.isEmpty()) throw new NotFoundException("There is no horse with id " + id);
+
+        return horses;
+    }
+
     private Horse mapRow(ResultSet resultSet, int i) throws SQLException {
         LOGGER.trace("Mapping through all SQL columns to get value of each column.");
         final Horse horse = new Horse();
@@ -194,4 +230,15 @@ public class HorseJdbcDao implements HorseDao {
         return newArray;
     }
 
+    private Horse mapTreeRow(ResultSet resultSet, int i) throws SQLException {
+        LOGGER.trace("Mapping through all SQL columns to get values for a family tree.");
+        final Horse horse = new Horse();
+        horse.setId(resultSet.getLong("id"));
+        horse.setName(resultSet.getString("name"));
+        horse.setBirthday(resultSet.getDate("birthday").toLocalDate());
+        horse.setGender(Enum.valueOf(Gender.class,resultSet.getString("gender")));
+        horse.setParentId1(resultSet.getLong("parentId1"));
+        horse.setParentId2(resultSet.getLong("parentId2"));
+        return horse;
+    }
 }

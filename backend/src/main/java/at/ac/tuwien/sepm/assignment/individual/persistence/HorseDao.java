@@ -63,4 +63,16 @@ public interface HorseDao {
      * @throws NotFoundException will be thrown if the horse could not be found.
      */
     List<Horse> getAllHorses() throws PersistenceException, NotFoundException;
+
+    /**
+     * Gets a family tree of a specific horse.
+     *
+     * @param id the id of the horse, whose family tree is wanted.
+     * @param generations contains number of generations that should be displayed.
+     * @return all family horses of input horse.
+     * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     * @throws NotFoundException will be thrown if the horse could not be found.
+     */
+    List<Horse> getFamilyTreeHorse(Long id, Long generations);
+
 }
