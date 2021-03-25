@@ -38,4 +38,9 @@ export class HorseService {
     console.log('Edit horse', horse);
     return this.httpClient.put<Horse>(baseUri + '/' + horse.id, horse, httpOptions);
   }
+
+  deleteHorse(horse: Horse): Observable<Horse> {
+    console.log('Delete horse', horse);
+    return this.httpClient.delete<Horse>(baseUri + '/' + horse.id);
+  }
 }

@@ -12,6 +12,7 @@ export class IndividualComponent implements OnInit {
   @Input() horses: Horse[];
   @Input() sports: Sport[];
   @Output() editHorse: EventEmitter<Horse> = new EventEmitter();
+  @Output() deleteHorse: EventEmitter<Horse> = new EventEmitter();
   @ViewChild('myModalClose') modalClose;
 
   horseCopy: Horse;
@@ -46,11 +47,15 @@ export class IndividualComponent implements OnInit {
   copyHorse(){
     this.horseCopy = JSON.parse(JSON.stringify(this.horse));
   }
-
   getDataTarget(){
     return '#editHorse' + this.horse.id;
   }
   getId(){
     return 'editHorse' + this.horse.id;
+  }
+
+
+  onDelete(horse) {
+    this.deleteHorse.emit(horse);
   }
 }

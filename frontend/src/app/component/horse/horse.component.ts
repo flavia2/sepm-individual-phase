@@ -90,7 +90,7 @@ export class HorseComponent implements OnInit {
 
   private editHorse(horse: Horse) {
     this.horseService.editHorse(horse).subscribe(
-      (horse: Horse) => {
+      (nextHorse: Horse) => {
         this.editSuccess = true;
         this.editSuccess = true;
         setTimeout(() => {
@@ -99,6 +99,11 @@ export class HorseComponent implements OnInit {
       },
       error => this.defaultServiceErrorHandling(error)
     );
+  }
+
+  private deleteHorse(horse: Horse) {
+    this.horses = this.horses.filter(h => h.id !== horse.id);
+    this.horseService.deleteHorse(horse).subscribe();
   }
 
   private defaultServiceErrorHandling(error: any) {
