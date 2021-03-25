@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { SportIndividualComponent } from './component/sport-individual/sport-individual.component';
 import { HorseComponent } from './component/horse/horse.component';
 import { IndividualComponent } from './component/individual/individual.component';
+import { DetailComponent } from './component/detail/detail.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { IndividualComponent } from './component/individual/individual.component
     SportIndividualComponent,
     HorseComponent,
     IndividualComponent,
+    DetailComponent,
   ],
   imports: [
     BrowserModule,

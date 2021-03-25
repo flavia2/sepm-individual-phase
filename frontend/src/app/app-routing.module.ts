@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {SportComponent} from './component/sport/sport.component';
 import {HorseComponent} from './component/horse/horse.component';
+import {DetailComponent} from './component/detail/detail.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'horses', pathMatch: 'full'},
@@ -16,6 +17,9 @@ const routes: Routes = [
     children: [
       {path: 'add', component: HorseComponent}
     ]
+  },
+  {
+    path: 'detail/:id', component: DetailComponent
   }
 
 ];
