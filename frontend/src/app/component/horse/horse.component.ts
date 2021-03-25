@@ -14,6 +14,7 @@ export class HorseComponent implements OnInit {
   error = false;
   errorMessage = '';
   addSuccess = false;
+  editSuccess = false;
 
   horse: Horse;
   horses: Horse[];
@@ -60,7 +61,6 @@ export class HorseComponent implements OnInit {
 
   onAdd() {
     const newHorse = new Horse(0, this.name, this.description, this.birthday, this.gender, this.sport, this.parentId1, this.parentId2);
-    console.log(newHorse);
     this.horseService.createHorse(newHorse).subscribe(
       (horse: Horse) => {
         this.horses.push(horse);
@@ -86,6 +86,19 @@ export class HorseComponent implements OnInit {
     this.parentId1 = null;
     this.parentId2 = null;
     this.loadParents();
+  }
+
+  private editHorse(horse: Horse) {
+    this.horseService.editHorse(horse).subscribe(
+      (horse: Horse) => {
+        this.editSuccess = true;
+        this.editSuccess = true;
+        setTimeout(() => {
+          this.editSuccess = false;
+        }, 3000);
+      },
+      error => this.defaultServiceErrorHandling(error)
+    );
   }
 
   private defaultServiceErrorHandling(error: any) {

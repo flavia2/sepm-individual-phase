@@ -6,6 +6,21 @@
   Horse <span class="font-weight-bold">{{ horse.name }}</span> was successfully added!
 </div>
 
+<div *ngIf="editSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+  Your changes have successfully been saved!
+</div>
+
+<div *ngIf="router.url === '/horses'">
+
+  <h1>All our horses:</h1>
+  <app-individual *ngFor="let horse of horses"
+                  [horse]="horse"
+                  [sports]="sports"
+                  [horses]="horses"
+                  (editHorse)="editHorse($event)">
+  </app-individual>
+</div>
+
 <div *ngIf="router.url === '/horses/add' && horses">
   <div *ngIf="horses">
     <form id="addHorseForm" name="form" (ngSubmit)="onAdd()">
@@ -22,7 +37,8 @@
           <li>
 
             <label for="description">Description:</label>
-            <input type="text" class="form-control" id="description" name="description" [(ngModel)]="description" value=""/>
+            <input type="text" class="form-control" id="description" name="description" [(ngModel)]="description"
+                   value=""/>
           </li>
 
           <li>

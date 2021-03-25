@@ -33,4 +33,9 @@ export class HorseService {
     console.log('Create new horse', horse);
     return this.httpClient.post<Horse>(baseUri, horse, httpOptions);
   }
+
+  editHorse(horse: Horse): Observable<Horse> {
+    console.log('Edit horse', horse);
+    return this.httpClient.put<Horse>(baseUri + '/' + horse.id, horse, httpOptions);
+  }
 }

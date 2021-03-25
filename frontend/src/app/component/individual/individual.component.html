@@ -1,0 +1,108 @@
+<div *ngIf="horse">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <span class="d-flex justify-content-between align-items-center">
+        <span>{{ horse.name }}</span>
+        <span class=" d-flex justify-content-between align-items-center">
+          <button type="button" class="btn btn-sm btn-outline-secondary">
+            Family tree
+          </button>
+          <button (click)="copyHorse()" type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                  [attr.data-target]=getDataTarget()>
+             Edit
+        </button>
+        <button class="btn btn-sm btn-outline-danger" type="button">
+          Delete
+        </button>
+        </span>
+      </span>
+    </li>
+  </ul>
+
+  <!-- Edit - Modal -->
+  <div *ngIf="horseCopy">
+    <div data-backdrop="static" class="modal fade" [attr.id]=getId() tabindex="-1"
+         aria-labelledby="editHorseLabel" aria-hidden="true">
+      <div class="modal-dialog-centered modal-dialog modal-static" id="close" aria-hidden="false">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editHorseLabel">Edit {{ horse.name }}:</h5>
+            <button type="button" #myModalClose class="close" data-dismiss="modal" aria-label="Close" (click)="copyHorse()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="onEdit()">
+              <div>
+                <ul>
+
+                  <li>
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" [(ngModel)]="horseCopy.name"
+                           placeholder="{{horse.name}}"/>
+                  </li>
+
+                  <li>
+                    <label for="description">Description:</label>
+                    <input type="text" class="form-control" id="description" name="description" [(ngModel)]="horseCopy.description"/>
+                  </li>
+
+                  <li>
+                    <label for="birthday">Birthday:</label>
+                    <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="horseCopy.birthday"/>
+                  </li>
+
+                  <li>
+                    <label for="gender">Gender:</label>
+                    <select name="gender" id="gender" class="form-control" [(ngModel)]="horseCopy.gender">
+                      <option name="gender" value="female">female</option>
+                      <option name="gender" value="male">male</option>
+                    </select>
+                  </li>
+
+                  <li>
+                    <label for="sport">Sport:</label>
+                    <select name="sport" id="sport" class="form-control" [(ngModel)]="horseCopy.sport">
+                      <option name="sport" *ngFor="let sport of sports" value="{{ sport.id }}">
+                        {{ sport.name }}
+                      </option>
+                      <option value=null>no sport</option>
+                    </select>
+                  </li>
+
+                  <li>
+                    <label for="mother">Mother:</label>
+                    <select name="mother" id="mother" class="form-control" [(ngModel)]="horseCopy.parentId1">
+                      <option name="mother" *ngFor="let horse of female" value="{{ horse.id }}">
+                        {{ horse.name }}
+                      </option>
+                      <option name="mother" value=null>no Mother</option>
+                    </select>
+                  </li>
+
+                  <li>
+                    <label for="father">Father:</label>
+                    <select name="father" id="father" class="form-control" [(ngModel)]="horseCopy.parentId2">
+                      <option name="father" *ngFor="let horse of male" value="{{ horse.id }}">
+                        {{ horse.name }}
+                      </option>
+                      <option name="father" value=null>no Father</option>
+                    </select>
+                  </li>
+
+                  <li>
+                    <input type="submit" value="Save changes" class="btn btn-primary"/>
+                  </li>
+
+                </ul>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
