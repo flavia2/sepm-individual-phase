@@ -35,7 +35,6 @@ export class SportComponent implements OnInit {
 
   private onAdd(){
     const newSport = new Sport(0, this.name, this.description);
-    console.log(newSport);
     this.sportService.createSport(newSport).subscribe(
       (sport: Sport) => {
         this.sports.push(sport);
