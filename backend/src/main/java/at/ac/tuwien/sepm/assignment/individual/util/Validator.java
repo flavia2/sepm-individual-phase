@@ -98,4 +98,12 @@ public class Validator {
             }
         }
     }
+    public void validateGenerations(Long generations) throws ValidationException{
+        LOGGER.trace("Validating generations for family tree request.");
+        if (generations != null) {
+            if (generations <= 0) {
+                throw new ValidationException("Generations must be greater than 0.");
+            }
+        }
+    }
 }
