@@ -30,7 +30,7 @@ export class HorseComponent implements OnInit {
   female: Horse[];
   male: Horse[];
 
-  constructor(private horseService: HorseService, private sportService: SportService, private router: Router) { }
+  constructor(private horseService: HorseService, private sportService: SportService, public router: Router) { }
 
   ngOnInit(): void {
     this.horseService.getAllHorses().subscribe(
@@ -77,18 +77,7 @@ export class HorseComponent implements OnInit {
       }
     );
   }
-  private resetForm(){
-    this.name = null;
-    this.description = null;
-    this.birthday = null;
-    this.gender = null;
-    this.sport = null;
-    this.parentId1 = null;
-    this.parentId2 = null;
-    this.loadParents();
-  }
-
-  private editHorse(horse: Horse) {
+  public editHorse(horse: Horse) {
     this.horseService.editHorse(horse).subscribe(
       (nextHorse: Horse) => {
         this.editSuccess = true;
@@ -100,10 +89,20 @@ export class HorseComponent implements OnInit {
       error => this.defaultServiceErrorHandling(error)
     );
   }
-
-  private deleteHorse(horse: Horse) {
+  public deleteHorse(horse: Horse) {
     this.horses = this.horses.filter(h => h.id !== horse.id);
     this.horseService.deleteHorse(horse).subscribe();
+  }
+
+  private resetForm(){
+    this.name = null;
+    this.description = null;
+    this.birthday = null;
+    this.gender = null;
+    this.sport = null;
+    this.parentId1 = null;
+    this.parentId2 = null;
+    this.loadParents();
   }
 
   private defaultServiceErrorHandling(error: any) {
