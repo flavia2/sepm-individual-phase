@@ -4,3 +4,49 @@
 <div *ngIf="editSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
   Your changes have successfully been saved!
 </div>
+
+<div *ngIf="horse && horses">
+  <span class="d-flex justify-content-center">
+    <span *ngIf="horse.gender === 'female'" class="female badge badge-pill">FEMALE</span>
+    <span *ngIf="horse.gender === 'male'" class="male badge badge-pill">MALE</span>
+       </span>
+  <app-individual
+    [horse]="horse"
+    [sports]="sports"
+    [horses]="horses"
+    (deleteHorse)="deleteHorse($event)"
+    (editHorse)="editHorse($event)">
+  </app-individual>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><i>{{horse.description}}</i></li>
+
+    <li class="list-group-item" style="border-color: white"><b>Date of birth: </b>{{horse.birthday}}</li>
+
+    <div *ngIf="horse.sport">
+      <div *ngFor="let sport of sports" class="list-group-flush">
+        <div *ngIf="sport.id == horse.sport" class="list-group-item">
+          <b>Sport: </b>{{ sport.name }}
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="horse.parentId1">
+      <div *ngFor="let parent of horses" class="list-group-flush">
+        <div *ngIf="parent.id == horse.parentId1" class="list-group-item">
+          <button routerLink="/detail/{{horse.parentId1}}" class="btn link" role="button">
+            <span *ngIf="parent.gender == 'female'"><b>Mother: </b></span> {{ parent.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="horse.parentId2">
+      <div *ngFor="let parent of horses" class="list-group-flush">
+        <div *ngIf="parent.id == horse.parentId2" class="list-group-item">
+          <button routerLink="/detail/{{horse.parentId2}}" class="btn link" role="button">
+            <span *ngIf="parent.gender == 'male'"><b>Father: </b></span> {{ parent.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </ul>
+</div>
