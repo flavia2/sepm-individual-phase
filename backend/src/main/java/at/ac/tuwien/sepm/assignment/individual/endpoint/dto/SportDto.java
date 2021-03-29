@@ -10,14 +10,22 @@ public class SportDto {
     public SportDto() {
     }
 
+    public SportDto(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
     public SportDto(String name) {
         this.name = name;
     }
 
-    public SportDto(Long id, String name, String description) {
+    public SportDto(Long id, String name) {
         this(name);
         this.id = id;
-        this.description = description;
+    }
+
+    public SportDto(Long id, String name, String description) {
+        this(name, description);
+        this.id = id;
     }
 
     public Long getId() {

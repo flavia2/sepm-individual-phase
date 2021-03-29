@@ -12,6 +12,16 @@ public class Sport {
     public Sport() {
     }
 
+    public Sport(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Sport(Long id, String name, String description) {
+        this(name, description);
+        this.id = id;
+    }
+
     public Sport(String name) {
         this.name = name;
     }
@@ -19,11 +29,6 @@ public class Sport {
     public Sport(Long id, String name) {
         this(name);
         this.id = id;
-    }
-    public Sport(Long id, String name, String description) {
-        this(name);
-        this.id = id;
-        this.description = description;
     }
 
     public Long getId() {
