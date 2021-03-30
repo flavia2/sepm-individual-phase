@@ -15,10 +15,11 @@ public interface SportService {
      *
      * @param id of the sport to find.
      * @return the sport with the specified id.
-     * @throws RuntimeException  if something goes wrong during data processing.
+     * @throws ValidationException  will be thrown if the parameters of sport are not valid.
+     * @throws PersistenceException  if something goes wrong during data processing.
      * @throws NotFoundException if the sport could not be found in the system.
      */
-    Sport getOneById(Long id);
+    Sport getOneById(Long id) throws ValidationException, PersistenceException,NotFoundException;
 
     /**
      * Creates a sport with given parameters in database.
@@ -34,6 +35,7 @@ public interface SportService {
      *
      * @return all sports stored in datastore.
      * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     * @throws NotFoundException    will be thrown if the sport could not be found in the database.
      */
-    List<Sport> getAllSports();
+    List<Sport> getAllSports() throws PersistenceException, NotFoundException;
 }
