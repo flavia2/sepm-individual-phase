@@ -14,9 +14,9 @@ export class DetailComponent implements OnInit {
   error = false;
   errorMessage = '';
   editSuccess = false;
-  private horse: Horse;
-  private horses: Horse[];
-  private sports: Sport[];
+  horse: Horse;
+  horses: Horse[];
+  sports: Sport[];
 
   constructor(private horseService: HorseService,
               private sportService: SportService,
