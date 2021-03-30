@@ -2,10 +2,12 @@ package at.ac.tuwien.sepm.assignment.individual.util;
 
 import at.ac.tuwien.sepm.assignment.individual.entity.Horse;
 import at.ac.tuwien.sepm.assignment.individual.entity.Sport;
+
 import java.lang.invoke.MethodHandles;
 import java.time.LocalDate;
 
 import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
+import at.ac.tuwien.sepm.assignment.individual.persistence.HorseDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,7 +16,11 @@ import org.springframework.stereotype.Component;
 public class Validator {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    private final HorseDao horseDao;
 
+    public Validator(HorseDao horseDao) {
+        this.horseDao = horseDao;
+    }
 
     public void validateNewSport(Sport sport) throws ValidationException {
         LOGGER.trace("Validating parameters of new sport created.");
@@ -103,6 +109,39 @@ public class Validator {
             if (generations <= 0) {
                 throw new ValidationException("Generations must be greater than 0.");
             }
+        }
+    }
+
+    public void validateParents(Horse horse) throws ValidationException {
+        LOGGER.trace("Validating parameters of parents.");
+        if (horse.getMother() != null) {
+            Horse parent1 = horseDao.getHorseById(horse.getMother());
+            if (parent1.getBirthday().isAfter(horse.getBirthday())) {
+                throw new ValidationException("Horse must be younger than mother's age: " + parent1.getBirthday());
+            }
+        }
+        if (horse.getFather() != null) {
+            Horse parent2 = horseDao.getHorseById(horse.getFather());
+            if (parent2.getBirthday().isAfter(horse.getBirthday())) {
+                throw new ValidationException("Horse must be younger than father's age: " + parent2.getBirthday());
+            }
+        }
+        if (horse.getMother() != null && horse.getFather() != null) {
+            Horse parent1 = horseDao.getHorseById(horse.getMother());
+            Horse parent2 = horseDao.getHorseById(horse.getFather());
+            if (parent1.getGender().equals(parent2.getGender())) {
+                throw new ValidationException("Parents must have differnt gender.");
+            }
+        }
+    }
+
+    public void validateSportId(Long id) throws ValidationException {
+        LOGGER.trace("Validating id of the sport.");
+        if (id == null) {
+            throw new NullPointerException("The sport needs an id.");
+        }
+        if (id <= 0) {
+            throw new ValidationException("The id of the sport must be greater than 0.");
         }
     }
 }
