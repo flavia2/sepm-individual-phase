@@ -36,7 +36,7 @@ public class HorseJdbcDao implements HorseDao {
     @Override
     public Horse createHorse(Horse horse) throws PersistenceException {
         LOGGER.trace("Creating a horse with name: {}", horse.getName());
-        final String createSql = "INSERT INTO " + TABLE_NAME + " (name, description, birthday, gender, sport, parentId1, parentId2) VALUES (?,?,?,?,?,?,?);";
+        final String createSql = "INSERT INTO " + TABLE_NAME + " (name, description, birthday, gender, sport, mother, father) VALUES (?,?,?,?,?,?,?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         try {
@@ -47,8 +47,8 @@ public class HorseJdbcDao implements HorseDao {
                 pSt.setObject(3, horse.getBirthday());
                 pSt.setString(4, String.valueOf(horse.getGender()));
                 pSt.setObject(5, horse.getSport());
-                pSt.setObject(6, horse.getParentId1());
-                pSt.setObject(7, horse.getParentId2());
+                pSt.setObject(6, horse.getMother());
+                pSt.setObject(7, horse.getFather());
                 return pSt;
             }, keyHolder);
         } catch (DataAccessException e) {
@@ -76,7 +76,7 @@ public class HorseJdbcDao implements HorseDao {
     @Override
     public Horse editHorse(Horse horse) throws PersistenceException, NotFoundException {
         LOGGER.trace("Editing the horse \"{}\" with id: {}", horse.getName(), horse.getId());
-        final String editSql = "UPDATE " + TABLE_NAME + " SET name=?, description=?, birthday=?, gender=?, sport=?, parentId1=?, parentId2=? WHERE id=?;";
+        final String editSql = "UPDATE " + TABLE_NAME + " SET name=?, description=?, birthday=?, gender=?, sport=?, mother=?, father=? WHERE id=?;";
 
         try {
             jdbcTemplate.update(connection -> {
@@ -86,8 +86,8 @@ public class HorseJdbcDao implements HorseDao {
                 pSt.setObject(3, horse.getBirthday());
                 pSt.setString(4, String.valueOf(horse.getGender()));
                 pSt.setObject(5, horse.getSport());
-                pSt.setObject(6, horse.getParentId1());
-                pSt.setObject(7, horse.getParentId2());
+                pSt.setObject(6, horse.getMother());
+                pSt.setObject(7, horse.getFather());
                 pSt.setLong(8, horse.getId());
                 return pSt;
             });
@@ -178,14 +178,14 @@ public class HorseJdbcDao implements HorseDao {
     public List<Horse> getFamilyTreeHorse(Long id, Long generations) throws PersistenceException, NotFoundException {
         LOGGER.trace("Getting family tree for horse with: id({}), generations({})", id, generations);
 
-        String treeSql = "WITH RECURSIVE T (id, name, birthday, gender, parentId1, parentId2, generations) AS ("
-            + " SELECT id, name, birthday, gender, parentId1 , parentId2, 1 AS generations "
+        String treeSql = "WITH RECURSIVE T (id, name, birthday, gender, mother, father, generations) AS ("
+            + " SELECT id, name, birthday, gender, mother , father, 1 AS generations "
             +  "FROM " + TABLE_NAME
             + " WHERE id = ? "
             + " UNION ALL "
-            + "SELECT h.id, h.name, h.birthday, h.gender, h.parentId1, h.parentId2, t.generations+1 "
+            + "SELECT h.id, h.name, h.birthday, h.gender, h.mother, h.father, t.generations+1 "
             + "FROM HORSE h, t "
-            +  "WHERE (h.id = t.parentId1 OR h.id = t.parentId2)) "
+            +  "WHERE (h.id = t.mother OR h.id = t.father)) "
             + "SELECT * FROM t";
         final String generationsSql = " WHERE generations <= ?";
         final String orderSql = " ORDER BY birthday DESC";
@@ -219,8 +219,8 @@ public class HorseJdbcDao implements HorseDao {
         horse.setBirthday(resultSet.getDate("birthday").toLocalDate());
         horse.setGender(Enum.valueOf(Gender.class,resultSet.getString("gender")));
         horse.setSport(resultSet.getLong("sport") == 0 ? null : resultSet.getLong("sport"));
-        horse.setParentId1(resultSet.getLong("parentId1") == 0 ? null : resultSet.getLong("parentId1"));
-        horse.setParentId2(resultSet.getLong("parentId2") == 0 ? null : resultSet.getLong("parentId2"));
+        horse.setMother(resultSet.getLong("mother") == 0 ? null : resultSet.getLong("mother"));
+        horse.setFather(resultSet.getLong("father") == 0 ? null : resultSet.getLong("father"));
         return horse;
     }
 
@@ -243,8 +243,8 @@ public class HorseJdbcDao implements HorseDao {
         horse.setName(resultSet.getString("name"));
         horse.setBirthday(resultSet.getDate("birthday").toLocalDate());
         horse.setGender(Enum.valueOf(Gender.class,resultSet.getString("gender")));
-        horse.setParentId1(resultSet.getLong("parentId1"));
-        horse.setParentId2(resultSet.getLong("parentId2"));
+        horse.setMother(resultSet.getLong("mother"));
+        horse.setFather(resultSet.getLong("father"));
         return horse;
     }
 }
