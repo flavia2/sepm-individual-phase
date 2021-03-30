@@ -126,7 +126,10 @@ public class HorseEndpoint {
                                  @RequestParam(value = "description", required = false) String description,
                                  @RequestParam(value = "birthday", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate birthday,
                                  @RequestParam(value = "gender", required = false) Gender gender,
-                                 @RequestParam(value = "sport", required = false) @NumberFormat Long sport) {
+                                 @RequestParam(value = "sport", required = false, defaultValue = "0") @NumberFormat Long sport) {
+        if (sport == 0){
+            sport = null;
+        }
         LOGGER.info("GET (search) " + BASE_URL + "/{}", name);
         try {
             return horseMapper.entitiesToDto(horseService.searchHorse(horseMapper.paramsToEntity(name, description, birthday, gender, sport)));

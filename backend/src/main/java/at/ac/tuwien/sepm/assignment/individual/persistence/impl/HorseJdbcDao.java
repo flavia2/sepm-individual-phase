@@ -126,7 +126,7 @@ public class HorseJdbcDao implements HorseDao {
         List<Horse> horses;
         Object [] objects = {"%" +  ((horse.getName() == null) ? "" : horse.getName()).toUpperCase() + "%",
             ((horse.getBirthday() == null) ? LocalDate.now() : horse.getBirthday()).toString(),
-            "%" +  ((horse.getGender() == null) ? "" : horse.getGender()) + "%"
+            "" +  ((horse.getGender() == null) ? "%%" : horse.getGender()) + ""
         };
 
         if(horse.getDescription() != null){
@@ -147,7 +147,11 @@ public class HorseJdbcDao implements HorseDao {
                 "gender:\"" + horse.getGender() + "\" \n" +
                 "sport:\"" + horse.getSport() + "\" \n", e);
         }
-        if (horses.isEmpty()) throw new NotFoundException("Could not find any horse. ");
+        if (horses.isEmpty()) throw new NotFoundException("Could not find any horse for search with parameters: \n name:\"" + horse.getName() + "\" \n " +
+            "description:\"" + horse.getDescription() + "\" \n" +
+            "birthday:\"" + horse.getBirthday() + "\" \n" +
+            "gender:\"" + horse.getGender() + "\" \n" +
+            "sport:\"" + horse.getSport() + "\" \n");
 
         return horses;
     }
@@ -163,7 +167,9 @@ public class HorseJdbcDao implements HorseDao {
             throw new PersistenceException("Horse could not be found", e);
         }
 
-        if (horses.isEmpty()) throw new NotFoundException("There are no horses stored in the database.");
+        if (horses.isEmpty()) {
+            throw new NotFoundException("There are no horses stored in the database.");
+        }
 
         return horses;
     }
