@@ -35,7 +35,6 @@ public interface SportService {
      *
      * @return all sports stored in datastore.
      * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
-     * @throws NotFoundException    will be thrown if the sport could not be found in the database.
      */
-    List<Sport> getAllSports() throws PersistenceException, NotFoundException;
+    List<Sport> getAllSports() throws PersistenceException;
 }

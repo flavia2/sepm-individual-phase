@@ -68,7 +68,7 @@ public class SportJdbcDao implements SportDao {
     }
 
     @Override
-    public List<Sport> getAllSports() throws PersistenceException, NotFoundException {
+    public List<Sport> getAllSports() throws PersistenceException{
         LOGGER.trace("Getting all sports from database.");
         final String sql = "SELECT * FROM " + TABLE_NAME;
         List<Sport> sports;
@@ -77,8 +77,6 @@ public class SportJdbcDao implements SportDao {
         } catch (DataAccessException e){
             throw new PersistenceException("Sports could not be found", e);
         }
-
-        if (sports.isEmpty()) throw new NotFoundException("There are no sports stored in the database.");
 
         return sports;
     }

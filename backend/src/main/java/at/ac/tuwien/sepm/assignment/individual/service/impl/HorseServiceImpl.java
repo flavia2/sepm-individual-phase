@@ -94,13 +94,11 @@ public class HorseServiceImpl implements HorseService {
     }
 
     @Override
-    public List<Horse> getAllHorses() throws PersistenceException, NotFoundException {
+    public List<Horse> getAllHorses() throws PersistenceException {
         LOGGER.trace("Getting all horses from the database.");
         try {
             return dao.getAllHorses();
         } catch (PersistenceException e) {
-            throw e;
-        } catch (NotFoundException e){
             throw e;
         }
     }

@@ -66,9 +66,8 @@ public interface HorseService {
      *
      * @return all horses stored in datastore.
      * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
-     * @throws NotFoundException    will be thrown if the horse could not be found.
      */
-    List<Horse> getAllHorses() throws PersistenceException, NotFoundException;
+    List<Horse> getAllHorses() throws PersistenceException;
 
     /**
      * Generate for specific horse

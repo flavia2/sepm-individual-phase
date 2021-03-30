@@ -154,9 +154,6 @@ public class HorseEndpoint {
         } catch (PersistenceException e) {
             LOGGER.error("[PersistenceException]: Error occurred in persistence layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
-        } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occurred in persistence layer. Full Stacktrace: " + e);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 

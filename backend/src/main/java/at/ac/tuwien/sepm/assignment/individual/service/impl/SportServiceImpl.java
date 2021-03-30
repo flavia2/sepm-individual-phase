@@ -53,13 +53,11 @@ public class SportServiceImpl implements SportService {
     }
 
     @Override
-    public List<Sport> getAllSports() throws PersistenceException, NotFoundException{
+    public List<Sport> getAllSports() throws PersistenceException{
         LOGGER.trace("Getting all sports.");
         try {
             return dao.getAllSports();
         } catch (PersistenceException e){
-            throw e;
-        } catch (NotFoundException e){
             throw e;
         }
     }

@@ -157,7 +157,7 @@ public class HorseJdbcDao implements HorseDao {
     }
 
     @Override
-    public List<Horse> getAllHorses() throws PersistenceException, NotFoundException {
+    public List<Horse> getAllHorses() throws PersistenceException{
         LOGGER.trace("Getting all horses from database.");
         final String sql = "SELECT * FROM " + TABLE_NAME;
         List<Horse> horses;
@@ -166,11 +166,6 @@ public class HorseJdbcDao implements HorseDao {
         } catch (DataAccessException e){
             throw new PersistenceException("Horse could not be found", e);
         }
-
-        if (horses.isEmpty()) {
-            throw new NotFoundException("There are no horses stored in the database.");
-        }
-
         return horses;
     }
 
