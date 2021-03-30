@@ -20,8 +20,8 @@
   </div>
 
   <div *ngIf="!searching">
-    <!--  <div *ngIf="!horse"><h3>There are currently no horses at Wendy´s Family</h3></div>-->
-  <h1>All our horses:</h1>
+    <div *ngIf="horses.length == 0"><h2>There are currently no horses at Wendy´s Family Tree</h2></div>
+    <div *ngIf="horses.length > 0"><h1>All our horses:</h1></div>
   <app-individual *ngFor="let horse of horses"
                   [horse]="horse"
                   [sports]="sports"

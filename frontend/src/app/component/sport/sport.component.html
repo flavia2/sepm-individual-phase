@@ -7,9 +7,10 @@
 </div>
 
 <div *ngIf="router.url === '/sports'">
-  <h1>All our sports:</h1>
-  <!--  <div *ngIf="!sport"><h3>There are currently no sports saved in our database</h3></div>-->
-  <app-sport-individual *ngFor="let sport of sports" [sport]="sport"></app-sport-individual>
+  <div *ngIf="sports.length == 0"><h2>There are currently no sports saved in our database</h2></div>
+  <div *ngIf="sports.length > 0"><h1>All our sports:</h1>
+    <app-sport-individual *ngFor="let sport of sports" [sport]="sport"></app-sport-individual>
+  </div>
 </div>
 
 <div *ngIf="router.url === '/sports/add'">
