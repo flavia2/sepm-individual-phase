@@ -1,20 +1,27 @@
 <ul *ngIf="family">
   <li *ngFor="let node of family">
-    <span *ngIf="node.parent1 != null || node.parent2 != null "><b></b></span>
-    <button (click)="toggleParents()">
-      <span class="list-group-item d-flex justify-content-between">
-        <span class="d-flex align-items-center">
-          <span><strong>{{node.name}}</strong></span>
-        </span>
-        <span>{{node.birthday}}</span>
-        <span *ngIf="show">
-          <app-family-node *ngIf="node.parent1" [family]="node.parent1"></app-family-node>
-        </span>
-        <span *ngIf="show">
-          <app-family-node *ngIf="node.parent2" [family]="node.parent2"></app-family-node>
-        </span>
-      </span>
+<span *ngIf="node.name!=null" class="list-group-item d-flex justify-content-between">
+  <span>
+    <button class="toggle" (click)="toggleParents()">
+      <span *ngIf="show" class="badge badge-pill">-</span>
+      <span *ngIf="!show" class="badge badge-pill">+</span>
     </button>
+    <a class="name" routerLink="/detail/{{node.id}}">{{ node.name }}</a>
+  </span>
+  <span>
+    <span>{{node.birthday}}</span>
+    <span><button (click)="onDelete(node)" routerLink="/horses"
+                  class="btn btn-sm btn-outline-danger" type="button">
+          Delete
+      </button></span>
+  </span>
+</span>
+    <p *ngIf="show">
+      <app-family-node *ngIf="node.parent1" [family]="node.parent1"></app-family-node>
+    </p>
+    <p *ngIf="show">
+      <app-family-node *ngIf="node.parent2" [family]="node.parent2"></app-family-node>
+    </p>
   </li>
 </ul>
 
