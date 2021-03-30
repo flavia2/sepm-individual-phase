@@ -29,9 +29,16 @@ public class SportServiceImpl implements SportService {
     }
 
     @Override
-    public Sport getOneById(Long id) {
-        LOGGER.trace("getOneById({})", id);
-        return dao.getOneById(id);
+    public Sport getOneById(Long id) throws ValidationException, PersistenceException, NotFoundException {
+        LOGGER.trace("Getting the spot with id: {}", id);
+        validator.validateSportId(id);
+        try{
+            return dao.getOneById(id);
+        }catch (PersistenceException e){
+            throw e;
+        }catch (NotFoundException e){
+            throw e;
+        }
     }
 
     @Override
@@ -46,7 +53,7 @@ public class SportServiceImpl implements SportService {
     }
 
     @Override
-    public List<Sport> getAllSports() {
+    public List<Sport> getAllSports() throws PersistenceException, NotFoundException{
         LOGGER.trace("Getting all sports.");
         try {
             return dao.getAllSports();
