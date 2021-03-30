@@ -53,9 +53,6 @@ public class HorseEndpoint {
         } catch (NullPointerException e) {
             LOGGER.error("[NullPointerException]: Error occurred in service layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
-        } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occurred in persistence layer. Full Stacktrace: " + e);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
@@ -115,6 +112,9 @@ public class HorseEndpoint {
         } catch (NotFoundException e) {
             LOGGER.error("[NotFoundException]: Error occurred in persistence layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }  catch (NullPointerException e) {
+            LOGGER.error("[NullPointerException]: Error occurred in service layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         } catch (ValidationException e) {
             LOGGER.error("[ValidationException]: Error occurred in service layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
@@ -128,20 +128,20 @@ public class HorseEndpoint {
                                  @RequestParam(value = "birthday", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate birthday,
                                  @RequestParam(value = "gender", required = false) Gender gender,
                                  @RequestParam(value = "sport", required = false, defaultValue = "0") @NumberFormat Long sport) {
+        LOGGER.info("GET (search) " + BASE_URL + "/{}", name);
         if (sport == 0){
             sport = null;
         }
-        LOGGER.info("GET (search) " + BASE_URL + "/{}", name);
         try {
             return horseMapper.entitiesToDto(horseService.searchHorse(horseMapper.paramsToEntity(name, description, birthday, gender, sport)));
         } catch (PersistenceException e) {
-            LOGGER.error("[PersistenceException]: Error occured in persistence layer. Full Stacktrace: " + e);
+            LOGGER.error("[PersistenceException]: Error occurred in persistence layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occured in persistence layer. Full Stacktrace: " + e);
+            LOGGER.error("[NotFoundException]: Error occurred in persistence layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occured in service layer. Full Stacktrace: " + e);
+            LOGGER.error("[ValidationException]: Error occurred in service layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         }
     }
@@ -152,13 +152,10 @@ public class HorseEndpoint {
         try {
             return horseMapper.entitiesToDto(horseService.getAllHorses());
         } catch (PersistenceException e) {
-            LOGGER.error("[PersistenceException]: Error occured in persistence layer. Full Stacktrace: " + e);
+            LOGGER.error("[PersistenceException]: Error occurred in persistence layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
-        } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occured in service layer. Full Stacktrace: " + e);
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occured in persistence layer. Full Stacktrace: " + e);
+            LOGGER.error("[NotFoundException]: Error occurred in persistence layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
@@ -175,6 +172,9 @@ public class HorseEndpoint {
         } catch (ValidationException e) {
             LOGGER.error("[ValidationException]: Error occurred in service layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
+        } catch (NullPointerException e) {
+            LOGGER.error("[NullPointerException]: Error occurred in service layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         } catch (NotFoundException e) {
             LOGGER.error("[NotFoundException]: Error occurred in persistence layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
