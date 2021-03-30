@@ -22,31 +22,31 @@
 
     <li class="list-group-item" style="border-color: white"><b>Date of birth: </b>{{horse.birthday}}</li>
 
-    <div *ngIf="horse.sport">
+    <li *ngIf="horse.sport">
       <div *ngFor="let sport of sports" class="list-group-flush">
         <div *ngIf="sport.id == horse.sport" class="list-group-item">
           <b>Sport: </b>{{ sport.name }}
         </div>
       </div>
-    </div>
+    </li>
 
-    <div *ngIf="horse.parentId1">
+    <li *ngIf="horse.mother">
       <div *ngFor="let parent of horses" class="list-group-flush">
-        <div *ngIf="parent.id == horse.parentId1" class="list-group-item">
-          <button routerLink="/detail/{{horse.parentId1}}" class="btn link" role="button">
+        <div *ngIf="parent.id == horse.mother" class="list-group-item">
+          <button routerLink="/detail/{{horse.mother}}" class="btn link" role="button">
             <span *ngIf="parent.gender == 'female'"><b>Mother: </b></span> {{ parent.name }}
           </button>
         </div>
       </div>
-    </div>
-    <div *ngIf="horse.parentId2">
+    </li>
+    <li *ngIf="horse.father">
       <div *ngFor="let parent of horses" class="list-group-flush">
-        <div *ngIf="parent.id == horse.parentId2" class="list-group-item">
-          <button routerLink="/detail/{{horse.parentId2}}" class="btn link" role="button">
+        <div *ngIf="parent.id == horse.father" class="list-group-item">
+          <button routerLink="/detail/{{horse.father}}" class="btn link" role="button">
             <span *ngIf="parent.gender == 'male'"><b>Father: </b></span> {{ parent.name }}
           </button>
         </div>
       </div>
-    </div>
+    </li>
   </ul>
 </div>
