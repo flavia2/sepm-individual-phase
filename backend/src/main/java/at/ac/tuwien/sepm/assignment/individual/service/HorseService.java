@@ -12,9 +12,11 @@ public interface HorseService {
      * Creates a horse with given parameters in database.
      *
      * @param horse that should be created in database.
+     * @throws ValidationException  will be thrown if the parameters of horse are not valid.
+     * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
      * @return horse that was created in database.
      */
-    Horse createHorse(Horse horse);
+    Horse createHorse(Horse horse) throws ValidationException, PersistenceException;
 
     /**
      * Get the horse with given ID.
@@ -64,17 +66,19 @@ public interface HorseService {
      *
      * @return all horses stored in datastore.
      * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
+     * @throws NotFoundException    will be thrown if the horse could not be found.
      */
-    List<Horse> getAllHorses();
+    List<Horse> getAllHorses() throws PersistenceException, NotFoundException;
 
     /**
      * Generate for specific horse
      * @param id the search parameters for the horses
      * @param generations contains number of generations that should be displayed.
      * @return all horses in tree structure
+     * @throws ValidationException  will be thrown if the parameters of horse are not valid.
      * @throws PersistenceException will be thrown if something goes wrong during the database access.
      * @throws NotFoundException   will be thrown if the horse could not be found in the database.
      */
-    List<Horse> getFamilyTreeHorse(Long id, Long generations);
+    List<Horse> getFamilyTreeHorse(Long id, Long generations) throws PersistenceException, NotFoundException, ValidationException;
 
 }

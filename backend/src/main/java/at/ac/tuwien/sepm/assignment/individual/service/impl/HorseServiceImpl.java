@@ -29,7 +29,7 @@ public class HorseServiceImpl implements HorseService {
 
 
     @Override
-    public Horse createHorse(Horse horse) {
+    public Horse createHorse(Horse horse) throws ValidationException, PersistenceException {
         LOGGER.trace("Creating a horse with name: {}", horse.getName());
         validator.validateNewHorse(horse);
         try {
@@ -92,9 +92,8 @@ public class HorseServiceImpl implements HorseService {
     }
 
     @Override
-    public List<Horse> getAllHorses() {
+    public List<Horse> getAllHorses() throws PersistenceException, NotFoundException {
         LOGGER.trace("Getting all horses from the database.");
-        //validation is missing
         try {
             return dao.getAllHorses();
         } catch (PersistenceException e) {
@@ -105,7 +104,7 @@ public class HorseServiceImpl implements HorseService {
     }
 
     @Override
-    public List<Horse> getFamilyTreeHorse(Long id, Long generations) {
+    public List<Horse> getFamilyTreeHorse(Long id, Long generations) throws PersistenceException,NotFoundException,ValidationException {
         LOGGER.trace("Getting family tree for horse with: id({}), generations({})", id, generations);
         validator.validateGenerations(generations);
         try {
