@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.assignment.individual.endpoint.mapper;
 
+import at.ac.tuwien.sepm.assignment.individual.endpoint.dto.FamilyTreeDto;
 import at.ac.tuwien.sepm.assignment.individual.endpoint.dto.HorseDto;
 import at.ac.tuwien.sepm.assignment.individual.entity.Horse;
 import at.ac.tuwien.sepm.assignment.individual.util.Gender;
@@ -36,5 +37,20 @@ public class HorseMapper {
         horse.setGender(gender);
         horse.setSport(sport);
         return horse;
+    }
+    public FamilyTreeDto createTree(Long id, List<Horse> horses){
+        FamilyTreeDto treeDto = new FamilyTreeDto();
+
+        for (Horse horse : horses){
+            if(id.equals(horse.getId())){
+                treeDto.setId(id);
+                treeDto.setName(horse.getName());
+                treeDto.setBirthday(horse.getBirthday());
+                treeDto.setParent1(new FamilyTreeDto[]{createTree(horse.getParentId1(),horses)});
+                treeDto.setParent2(new FamilyTreeDto[]{createTree(horse.getParentId2(),horses)});
+
+            }
+        }
+        return treeDto;
     }
 }

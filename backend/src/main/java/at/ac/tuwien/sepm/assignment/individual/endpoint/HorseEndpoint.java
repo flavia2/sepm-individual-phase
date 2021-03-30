@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.assignment.individual.endpoint;
 
+import at.ac.tuwien.sepm.assignment.individual.endpoint.dto.FamilyTreeDto;
 import at.ac.tuwien.sepm.assignment.individual.endpoint.dto.HorseDto;
 import at.ac.tuwien.sepm.assignment.individual.endpoint.mapper.HorseMapper;
 import at.ac.tuwien.sepm.assignment.individual.entity.Horse;
@@ -161,4 +162,23 @@ public class HorseEndpoint {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
+
+    @GetMapping(value = "/family/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public FamilyTreeDto getFamilyTreeHorse(@PathVariable("id") Long id, @RequestParam(required = false) Long generations) {
+        LOGGER.info("GET " + BASE_URL + "/family/{}", id);
+        try {
+            return horseMapper.createTree(id,horseService.getFamilyTreeHorse(id, generations));
+        } catch (PersistenceException e) {
+            LOGGER.error("[PersistenceException]: Error occurred in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
+        } catch (ValidationException e) {
+            LOGGER.error("[ValidationException]: Error occurred in service layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
+        } catch (NotFoundException e) {
+            LOGGER.error("[NotFoundException]: Error occurred in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
+
 }
