@@ -162,10 +162,10 @@ public class HorseEndpoint {
 
     @GetMapping(value = "/family/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public FamilyTreeDto getFamilyTreeHorse(@PathVariable("id") Long id, @RequestParam(required = false) Long generations) {
+    public List<FamilyTreeDto> getFamilyTreeHorse(@PathVariable("id") Long id, @RequestParam(required = false) Long generations) {
         LOGGER.info("GET " + BASE_URL + "/family/{}", id);
         try {
-            return horseMapper.createTree(id,horseService.getFamilyTreeHorse(id, generations));
+            return horseMapper.treeToList(horseMapper.createTree(id,horseService.getFamilyTreeHorse(id, generations)));
         } catch (PersistenceException e) {
             LOGGER.error("[PersistenceException]: Error occurred in persistence layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
