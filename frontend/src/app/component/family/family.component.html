@@ -1,0 +1,18 @@
+<div *ngIf="horse&&family">
+
+  <h2>{{horse.name}} Family</h2>
+
+  <label for="generations">Limit the shown generations:</label>
+  <select id="generations" class="custom-select custom-select-lg mb-3" [(ngModel)]="gen" (ngModelChange)="getFamilyWithGens()">
+    <option value="1">One</option>
+    <option value="2">Two</option>
+    <option value="3">Three</option>
+    <option value="4">Four</option>
+    <option value="5">Five</option>
+    <option value="6">Six</option>
+  </select>
+
+  <div class="tree-wrapper">
+    <app-family-node [family]="family"></app-family-node>
+  </div>
+</div>

@@ -11,6 +11,8 @@ import { SportIndividualComponent } from './component/sport-individual/sport-ind
 import { HorseComponent } from './component/horse/horse.component';
 import { IndividualComponent } from './component/individual/individual.component';
 import { DetailComponent } from './component/detail/detail.component';
+import { FamilyComponent } from './component/family/family.component';
+import { FamilyNodeComponent } from './component/family-node/family-node.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { DetailComponent } from './component/detail/detail.component';
     HorseComponent,
     IndividualComponent,
     DetailComponent,
+    FamilyComponent,
+    FamilyNodeComponent,
   ],
   imports: [
     BrowserModule,

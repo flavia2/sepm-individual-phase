@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {SportComponent} from './component/sport/sport.component';
 import {HorseComponent} from './component/horse/horse.component';
 import {DetailComponent} from './component/detail/detail.component';
+import {FamilyComponent} from './component/family/family.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'horses', pathMatch: 'full'},
@@ -20,8 +21,10 @@ const routes: Routes = [
   },
   {
     path: 'detail/:id', component: DetailComponent
+  },
+  {
+    path: 'family/:id', component: FamilyComponent
   }
-
 ];
 
 @NgModule({
