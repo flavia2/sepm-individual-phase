@@ -68,4 +68,15 @@ export class HorseService {
     return this.httpClient.get<Horse[]>(baseUri + '/search', {params});
   }
 
+  getFamilyTree(id: number): Observable<HorseFamily[]> {
+    console.log('Get family tree of horse with id ' + id);
+    return this.httpClient.get<HorseFamily[]>(baseUri + '/family/' + id);
+  }
+
+  getFamilyTreeWithGens(id: number, gens: number): Observable<HorseFamily[]> {
+    console.log('Get family tree with ' + gens + 'generations of horse with id ' + id);
+    let params = new HttpParams();
+    params = params.set('generations', gens.toString());
+    return this.httpClient.get<HorseFamily[]>(baseUri + '/family/' + id, {params});
+  }
 }
