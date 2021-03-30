@@ -47,7 +47,8 @@ public class SportEndpoint {
             LOGGER.error("[NullPointerException]: Error occurred in service layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error during reading sport", e);
+            LOGGER.error("[NotFoundException]: Error occurred in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
     @PostMapping
@@ -76,9 +77,6 @@ public class SportEndpoint {
         }catch (PersistenceException e) {
             LOGGER.error("[PersistenceException]: Error occured in persistence layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
-        } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occured in service layer. Full Stacktrace: " + e);
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         } catch (NotFoundException e) {
             LOGGER.error("[NotFoundException]: Error occured in persistence layer. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
