@@ -5,7 +5,7 @@
 
 DELETE FROM sport where ID < 0;
 INSERT INTO sport (ID, NAME, DESCRIPTION)
-VALUES (-1, 'Polo', 'Polo is a horseback mounted team sport.')
+VALUES (1, 'Polo', 'Polo is a horseback mounted team sport.')
      , (2, 'Dressage', 'Dressage is a form of riding performed in exhibition and competition.')
      , (3, 'Foxhunting', 'Fox hunting is an activity involving the tracking, chase and, if caught, the killing of a fox.')
      , (4, 'Horseball', 'Horseball is a game played on horseback where a ball is handled and points are scored by shooting it through a hoop with a diameter of 1m. ')
