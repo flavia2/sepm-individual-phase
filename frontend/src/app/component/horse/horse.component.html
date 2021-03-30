@@ -10,8 +10,17 @@
   Your changes have successfully been saved!
 </div>
 
+
 <div *ngIf="router.url === '/horses'">
 
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#searchHorse">
+      Search horse
+    </button>
+  </div>
+
+  <div *ngIf="!searching">
+    <!--  <div *ngIf="!horse"><h3>There are currently no horses at Wendy´s Family</h3></div>-->
   <h1>All our horses:</h1>
   <app-individual *ngFor="let horse of horses"
                   [horse]="horse"
@@ -20,10 +29,84 @@
                   (editHorse)="editHorse($event)"
                   (deleteHorse)="deleteHorse($event)">
   </app-individual>
+  </div>
+
+  <div *ngIf="searching">
+    <div class="d-flex justify-content-between">
+    <h1>Your results:</h1>
+    <button type="button" class="btn btn-outline-primary" (click)="resetSearch()">Reset your search results</button>
+    </div>
+    <app-individual *ngFor="let horse of searchedHorses"
+                      [horse]="horse"
+                      [sports]="sports"
+                      [horses]="horses"
+                      (deleteHorse)="deleteHorse($event)"
+                      (editHorse)="editHorse($event)">
+    </app-individual>
+  </div>
+
+  <!-- Search - Modal -->
+  <div class="modal fade" id="searchHorse" tabindex="-1" aria-labelledby="searchHorseLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="searchHorseLabel">Search for:</h5>
+          <button type="button" #myModalClose class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="onSearch()">
+            <div>
+              <ul>
+                <li>
+                  <label for="searchName">Name:</label>
+                  <input type="text" id="searchName" class="form-control" name="name" [(ngModel)]="searchName"/>
+                </li>
+
+                <li>
+                  <label for="searchDescription">Description:</label>
+                  <input type="text" id="searchDescription" class="form-control" name="description" [(ngModel)]="searchDescription"/>
+                </li>
+
+                <li>
+                  <label for="searchBirthday">Birthday:</label>
+                  <input type="date" id="searchBirthday" class="form-control" name="birthday" [(ngModel)]="searchBirthday"/>
+                </li>
+
+                <li>
+                  <label for="searchGender">Gender:</label>
+                  <select name="gender" id="searchGender" class="form-control" [(ngModel)]="searchGender">
+                    <option name="gender" value="female">female</option>
+                    <option name="gender" value="male">male</option>
+                    <option name="gender" value=null> </option>
+                  </select>
+                </li>
+
+                <li>
+                  <label for="searchSport">Sport:</label>
+                  <select name="sport" id="searchSport" class="form-control" [(ngModel)]="searchSport">
+                    <option name="sport" *ngFor="let sport of sports" value="{{ sport.id }}">
+                      {{ sport.name }}
+                    </option>
+                    <option name="sport" value="0" selected> </option>
+                  </select>
+                </li>
+
+                <li>
+                  <input type="submit" value="Go" class="btn btn-primary"/>
+                </li>
+              </ul>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<div *ngIf="router.url === '/horses/add' && horses">
-  <div *ngIf="horses">
+<div *ngIf="router.url === '/horses/add'">
     <form id="addHorseForm" name="form" (ngSubmit)="onAdd()">
       <div>
         <h1>Add a new Horse:</h1>
@@ -61,6 +144,7 @@
               <option name="sport" *ngFor="let sport of sports" value="{{ sport.id }}">
                 {{ sport.name }}
               </option>
+              <option name="sport" value=null>no sport</option>
             </select>
           </li>
 
@@ -90,6 +174,5 @@
         </ul>
       </div>
     </form>
-  </div>
 
 </div>

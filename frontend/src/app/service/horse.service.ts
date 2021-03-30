@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Horse} from '../dto/horse';
 import {environment} from 'src/environments/environment';
+import {HorseFamily} from '../dto/horseFamily';
+import {SearchedHorse} from '../dto/searchedHorse';
 
 const baseUri = environment.backendUrl + '/horses';
 const httpOptions = {
@@ -43,4 +45,27 @@ export class HorseService {
     console.log('Delete horse', horse);
     return this.httpClient.delete<Horse>(baseUri + '/' + horse.id);
   }
+
+  searchHorse(horse: SearchedHorse): Observable<Horse[]> {
+    console.log('Search horse', horse);
+    let params = new HttpParams();
+
+    if (horse.name) {
+      params = params.set('name', horse.name);
+    }
+    if (horse.description) {
+      params = params.set('description', horse.description);
+    }
+    if (horse.birthday) {
+      params = params.set('birthday', horse.birthday.toString());
+    }
+    if (horse.gender) {
+      params = params.set('gender', horse.gender.toString());
+    }
+    if (horse.sport) {
+      params = params.set('sport', horse.sport.toString());
+    }
+    return this.httpClient.get<Horse[]>(baseUri + '/search', {params});
+  }
+
 }

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Sport} from '../../dto/sport';
 import {Horse} from '../../dto/horse';
 import {Router} from '@angular/router';
 import {SportService} from '../../service/sport.service';
 import {HorseService} from '../../service/horse.service';
+import {SearchedHorse} from '../../dto/searchedHorse';
 
 @Component({
   selector: 'app-horse',
@@ -11,6 +12,8 @@ import {HorseService} from '../../service/horse.service';
   styleUrls: ['./horse.component.scss']
 })
 export class HorseComponent implements OnInit {
+  @ViewChild('myModalClose') modalClose;
+
   error = false;
   errorMessage = '';
   addSuccess = false;
@@ -30,9 +33,19 @@ export class HorseComponent implements OnInit {
   female: Horse[];
   male: Horse[];
 
+  searchName: string;
+  searchDescription: string;
+  searchBirthday: string;
+  searchGender: string;
+  searchSport: number;
+
+  searching: boolean;
+  searchedHorses: Horse[];
+
   constructor(private horseService: HorseService, private sportService: SportService, public router: Router) { }
 
   ngOnInit(): void {
+    this.searching = false;
     this.horseService.getAllHorses().subscribe(
       horses => {
         this.horses = horses;
@@ -77,6 +90,7 @@ export class HorseComponent implements OnInit {
       }
     );
   }
+
   public editHorse(horse: Horse) {
     this.horseService.editHorse(horse).subscribe(
       (nextHorse: Horse) => {
@@ -89,9 +103,34 @@ export class HorseComponent implements OnInit {
       error => this.defaultServiceErrorHandling(error)
     );
   }
+
   public deleteHorse(horse: Horse) {
     this.horses = this.horses.filter(h => h.id !== horse.id);
     this.horseService.deleteHorse(horse).subscribe();
+  }
+
+  public onSearch() {
+    const sHorse = new SearchedHorse(
+      this.searchName, this.searchDescription, this.searchBirthday, this.searchGender, this.searchSport);
+    this.horseService.searchHorse(sHorse).subscribe(
+      horses => this.searchedHorses = horses,
+      // horses => this.horses = horses,
+      error => {
+        this.defaultServiceErrorHandling(error);
+      this.resetSearch();
+      }
+    );
+    this.modalClose.nativeElement.click();
+    this.searching = true;
+  }
+
+  public resetSearch(){
+    this.searching = false;
+    this.searchName = null;
+    this.searchDescription = null;
+    this.searchBirthday = null;
+    this.searchGender = null;
+    this.searchSport = null;
   }
 
   private resetForm(){
