@@ -37,6 +37,15 @@ public class SportEndpoint {
         LOGGER.info("GET " + BASE_URL + "/{}", id);
         try {
             return sportMapper.entityToDto(sportService.getOneById(id));
+        } catch (PersistenceException e) {
+            LOGGER.error("[PersistenceException]: Error occurred in persistence layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
+        } catch (ValidationException e) {
+            LOGGER.error("[ValidationException]: Error occurred in service layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
+        } catch (NullPointerException e) {
+            LOGGER.error("[NullPointerException]: Error occurred in service layer. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error during reading sport", e);
         }
