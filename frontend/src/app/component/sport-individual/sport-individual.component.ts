@@ -8,9 +8,15 @@ import {Sport} from '../../dto/sport';
 })
 export class SportIndividualComponent implements OnInit {
   @Input() sport: Sport;
+  showDescription: boolean;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.showDescription = true;
+  }
+
+  public toggleDescription() {
+    this.showDescription = !this.showDescription;
   }
 }

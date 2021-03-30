@@ -18,8 +18,8 @@ export class SportComponent implements OnInit {
   name: string;
   description: string;
 
-
   constructor(private sportService: SportService, public router: Router) {
+    this.sports = Array();
   }
 
   ngOnInit() {

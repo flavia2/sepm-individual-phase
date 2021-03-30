@@ -1,3 +1,11 @@
-p{
-  margin: 0;
+button {
+  background: transparent;
+  box-shadow: 0 0 0 transparent;
+  border: 0 solid transparent;
+  text-shadow: 0 0 0 transparent;
+  font-weight: bold;
+  padding: 0;
+}
+.list-group-item{
+  border: none;
 }

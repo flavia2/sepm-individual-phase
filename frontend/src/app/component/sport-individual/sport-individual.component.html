@@ -1,4 +1,6 @@
 <div class="list-group-item">
-  <span class="font-weight-bold">{{ sport.name }}</span>
-  <p><i class="mb-1">{{sport.description}}</i></p>
+  <button (click)="toggleDescription()">{{ sport.name }}</button>
+  <div *ngIf="showDescription">
+    <i>{{sport.description}}</i>
+  </div>
 </div>
