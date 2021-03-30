@@ -17,10 +17,10 @@
   </span>
 </span>
     <p *ngIf="show">
-      <app-family-node *ngIf="node.parent1" [family]="node.parent1"></app-family-node>
+      <app-family-node *ngIf="node.mother" [family]="node.mother"></app-family-node>
     </p>
     <p *ngIf="show">
-      <app-family-node *ngIf="node.parent2" [family]="node.parent2"></app-family-node>
+      <app-family-node *ngIf="node.father" [family]="node.father"></app-family-node>
     </p>
   </li>
 </ul>

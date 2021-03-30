@@ -6,7 +6,7 @@ export class Horse {
     public birthday: string,
     public gender: string,
     public sport: number,
-    public parentId1: number,
-    public parentId2: number) {
+    public mother: number,
+    public father: number) {
   }
 }

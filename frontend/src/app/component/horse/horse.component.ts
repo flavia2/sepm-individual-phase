@@ -28,8 +28,8 @@ export class HorseComponent implements OnInit {
   birthday: string;
   gender: string;
   sport: number;
-  parentId1: number;
-  parentId2: number;
+  mother: number;
+  father: number;
   female: Horse[];
   male: Horse[];
 
@@ -75,7 +75,7 @@ export class HorseComponent implements OnInit {
   }
 
   onAdd() {
-    const newHorse = new Horse(0, this.name, this.description, this.birthday, this.gender, this.sport, this.parentId1, this.parentId2);
+    const newHorse = new Horse(0, this.name, this.description, this.birthday, this.gender, this.sport, this.mother, this.father);
     this.horseService.createHorse(newHorse).subscribe(
       (horse: Horse) => {
         this.horses.push(horse);
@@ -142,8 +142,8 @@ export class HorseComponent implements OnInit {
     this.birthday = null;
     this.gender = null;
     this.sport = null;
-    this.parentId1 = null;
-    this.parentId2 = null;
+    this.mother = null;
+    this.father = null;
     this.loadParents();
   }
 

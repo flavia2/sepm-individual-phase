@@ -150,7 +150,7 @@
 
           <li>
             <label for="mother">Mother:</label>
-            <select id="mother" name="mother" class="form-control" [(ngModel)]="parentId1">
+            <select id="mother" name="mother" class="form-control" [(ngModel)]="mother">
               <option name="mother" *ngFor="let horse of female" value="{{ horse.id }}">
                 {{ horse.name }}
               </option>
@@ -160,7 +160,7 @@
 
           <li>
             <label for="father">Father:</label>
-            <select id="father" name="father" class="form-control" [(ngModel)]="parentId2">
+            <select id="father" name="father" class="form-control" [(ngModel)]="father">
               <option name="father" *ngFor="let horse of male" value="{{ horse.id }}">
                 {{ horse.name }}
               </option>

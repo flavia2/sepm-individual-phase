@@ -37,8 +37,8 @@ export class IndividualComponent implements OnInit {
       birthday: this.horseCopy.birthday,
       gender: this.horseCopy.gender,
       sport: this.horseCopy.sport,
-      parentId1: this.horseCopy.parentId1,
-      parentId2: this.horseCopy.parentId2
+      mother: this.horseCopy.mother,
+      father: this.horseCopy.father
     };
     this.editHorse.emit(horse);
     this.horse = JSON.parse(JSON.stringify(horse));

@@ -3,7 +3,7 @@ export class HorseFamily {
     public id: number,
     public name: string,
     public birthday: string,
-    public parent1: HorseFamily[],
-    public parent2: HorseFamily[]){
+    public mother: HorseFamily[],
+    public father: HorseFamily[]){
   }
 }
