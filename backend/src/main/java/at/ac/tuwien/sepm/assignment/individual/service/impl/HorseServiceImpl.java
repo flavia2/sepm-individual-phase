@@ -32,6 +32,7 @@ public class HorseServiceImpl implements HorseService {
     public Horse createHorse(Horse horse) throws ValidationException, PersistenceException {
         LOGGER.trace("Creating a horse with name: {}", horse.getName());
         validator.validateNewHorse(horse);
+        validator.validateParents(horse);
         try {
             return dao.createHorse(horse);
         } catch (PersistenceException e) {
@@ -56,6 +57,7 @@ public class HorseServiceImpl implements HorseService {
     public Horse editHorse(Horse horse) throws PersistenceException, NotFoundException, ValidationException {
         LOGGER.trace("Editing the horse \"{}\" with id: {}", horse.getName(), horse.getId());
         validator.validateNewHorse(horse);
+        validator.validateParents(horse);
         try {
             return dao.editHorse(horse);
         } catch (PersistenceException e) {
@@ -106,6 +108,7 @@ public class HorseServiceImpl implements HorseService {
     @Override
     public List<Horse> getFamilyTreeHorse(Long id, Long generations) throws PersistenceException,NotFoundException,ValidationException {
         LOGGER.trace("Getting family tree for horse with: id({}), generations({})", id, generations);
+        validator.validateId(id);
         validator.validateGenerations(generations);
         try {
             return dao.getFamilyTreeHorse(id, generations);
