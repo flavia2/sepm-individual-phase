@@ -85,9 +85,11 @@ public class SportJdbcDao implements SportDao {
 
 
     private Sport mapRow(ResultSet resultSet, int i) throws SQLException {
+        LOGGER.trace("Mapping through all SQL columns to get value of each column.");
         final Sport sport = new Sport();
         sport.setId(resultSet.getLong("id"));
         sport.setName(resultSet.getString("name"));
+        sport.setDescription(resultSet.getString("description"));
         return sport;
     }
 }
