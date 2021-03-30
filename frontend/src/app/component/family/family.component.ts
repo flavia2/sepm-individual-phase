@@ -12,7 +12,7 @@ import {ActivatedRoute} from '@angular/router';
 export class FamilyComponent implements OnInit {
   horse: Horse;
   family: HorseFamily[];
-  gen: number;
+  selectedGen: number;
 
   constructor(private horseService: HorseService, private route: ActivatedRoute) {
   }
@@ -21,7 +21,7 @@ export class FamilyComponent implements OnInit {
     this.getFamily();
   }
   public getFamilyWithGens(): void {
-    this.horseService.getFamilyTreeWithGens(this.horse.id, this.gen).subscribe(
+    this.horseService.getFamilyTreeWithGens(this.horse.id, this.selectedGen).subscribe(
       family => this.family = family,
     );
   }

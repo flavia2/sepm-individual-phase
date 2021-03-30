@@ -42,7 +42,9 @@ export class HorseComponent implements OnInit {
   searching: boolean;
   searchedHorses: Horse[];
 
-  constructor(private horseService: HorseService, private sportService: SportService, public router: Router) { }
+  constructor(private horseService: HorseService, private sportService: SportService, public router: Router) {
+    this.horses = Array();
+  }
 
   ngOnInit(): void {
     this.searching = false;
@@ -107,6 +109,7 @@ export class HorseComponent implements OnInit {
   public deleteHorse(horse: Horse) {
     this.horses = this.horses.filter(h => h.id !== horse.id);
     this.horseService.deleteHorse(horse).subscribe();
+    this.loadParents();
   }
 
   public onSearch() {
