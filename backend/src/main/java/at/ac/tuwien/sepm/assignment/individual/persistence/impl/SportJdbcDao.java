@@ -32,10 +32,15 @@ public class SportJdbcDao implements SportDao {
     }
 
     @Override
-    public Sport getOneById(Long id) {
-        LOGGER.trace("getOneById({})", id);
+    public Sport getOneById(Long id) throws PersistenceException, NotFoundException{
+        LOGGER.trace("Getting the sport with id: {}", id);
         final String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id=?";
-        List<Sport> sports = jdbcTemplate.query(sql, this::mapRow, id);
+        List<Sport> sports;
+        try{
+            sports = jdbcTemplate.query(sql, this::mapRow, id);
+        }catch (DataAccessException e){
+            throw new PersistenceException("During getting sport with id " + id + " there was a problem accessing the database.", e);
+        }
 
         if (sports.isEmpty()) throw new NotFoundException("Could not find sport with id " + id);
 
