@@ -16,9 +16,9 @@ public class Validator {
 
 
 
-    public void validateNewSport(Sport sport) {
+    public void validateNewSport(Sport sport) throws ValidationException {
         LOGGER.trace("Validating parameters of new sport created.");
-        if (sport.getName() == null){
+        if (sport.getName() == null) {
             throw new NullPointerException("The sport needs a name.");
         }
         if (sport.getName() != null) {
@@ -33,7 +33,7 @@ public class Validator {
         }
     }
 
-    public void validateNewHorse(Horse horse) throws ValidationException, NullPointerException {
+    public void validateNewHorse(Horse horse) throws ValidationException {
         LOGGER.trace("Validating parameters of new horse created.");
 
         if (horse.getName() == null && horse.getBirthday() == null && horse.getDescription() == null && horse.getGender() == null && horse.getSport() == null) {
@@ -52,10 +52,7 @@ public class Validator {
                 throw new ValidationException("The description of the horse must be in the range between 1 and 500 characters.");
             }
         }
-        if (horse.getGender() == null){
-            throw new NullPointerException("The horse needs a gender.");
-        }
-        if (horse.getBirthday() == null){
+        if (horse.getBirthday() == null) {
             throw new NullPointerException("The horse needs a birthday.");
         }
         if (horse.getBirthday() != null) {
@@ -63,6 +60,10 @@ public class Validator {
                 throw new ValidationException("The horse´s age is not valid.");
             }
         }
+        if (horse.getGender() == null) {
+            throw new NullPointerException("The horse needs a gender.");
+        }
+
     }
 
     public void validateId(Long id) throws ValidationException {
@@ -75,7 +76,7 @@ public class Validator {
         }
     }
 
-    public void validateSearch(Horse horse) throws ValidationException{
+    public void validateSearch(Horse horse) throws ValidationException {
         LOGGER.trace("Validating search parameters of a horse.");
         if (horse.getName() != null) {
             if (horse.getName().length() == 0 || horse.getName().length() > 255) {
@@ -87,18 +88,16 @@ public class Validator {
                 throw new ValidationException("The description can only have up to 500 characters.");
             }
         }
-        if (horse.getGender()!= null){
-            if (!(horse.getGender().toString().equals("female") || horse.getGender().toString().equals("male"))) {
-                throw new ValidationException("The horse needs a gender." + horse.getGender());
-            }
-        }
+
         if (horse.getBirthday() != null) {
             if (horse.getBirthday().isBefore(LocalDate.of(1990, 1, 1)) || horse.getBirthday().isAfter(LocalDate.now())) {
                 throw new ValidationException("The horse´s age is not valid.");
             }
         }
+
     }
-    public void validateGenerations(Long generations) throws ValidationException{
+
+    public void validateGenerations(Long generations) throws ValidationException {
         LOGGER.trace("Validating generations for family tree request.");
         if (generations != null) {
             if (generations <= 0) {
