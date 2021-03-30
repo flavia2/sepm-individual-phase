@@ -16,7 +16,7 @@ public interface SportDao {
      * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
      * @throws NotFoundException   will be thrown if the sport could not be found in the database.
      */
-    Sport getOneById(Long id);
+    Sport getOneById(Long id) throws PersistenceException, NotFoundException;
 
     /**
      * Creates a sport with given parameters in datastore.
