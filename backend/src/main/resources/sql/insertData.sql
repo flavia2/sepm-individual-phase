@@ -18,12 +18,12 @@ VALUES (-1, 'Polo', 'Polo is a horseback mounted team sport.')
 ;
 INSERT INTO horse (ID, NAME, DESCRIPTION, BIRTHDAY, GENDER, SPORT, PARENTID1, PARENTID2)
 VALUES (1,'Tae','cool','1998-06-04','male',1,null,null),
-       (2,'Alice','cute','2017-03-27', 'female',2,null,null),
-       (3,'Wendy','','1995-08-14','female',null,null,null),
-       (4,'Marcel','','2010-07-01','male',3,3,null),
-       (5,'Jennifer','','1998-03-01','female',10,null,null),
+       (2,'Alice','cute','1997-03-27', 'female',2,null,null),
+       (3,'Wendy','','2000-08-14','female',null,2,1),
+       (4,'Marcel','','2000-07-01','male',3,null,null),
+       (5,'Jennifer','','2003-03-01','female',10,3,4),
        (6,'Elisabeth',null,'2008-08-29','female',null,null,null),
-       (7,'Zac','','2000-09-01','male',8,null,null),
-       (8,'Andrew','','1997-05-17','male',5,1,2),
+       (7,'Zac','','2003-09-01','male',8,null,null),
+       (8,'Andrew','','2014-05-17','male',5,5,7),
        (9,'Max','','2013-05-17','male',4,2,null),
        (10,'Mike','','1998-05-17','male',2,null,null);

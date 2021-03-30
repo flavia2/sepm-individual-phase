@@ -6,16 +6,16 @@ public class FamilyTreeDto {
     private Long id;
     private String name;
     private LocalDate birthday;
-    private FamilyTreeDto[] parent1;
-    private FamilyTreeDto[] parent2;
+    private FamilyTreeDto[] mother;
+    private FamilyTreeDto[] father;
 
     public FamilyTreeDto(){}
-    public FamilyTreeDto(Long id, String name, LocalDate birthday, FamilyTreeDto[] parent1, FamilyTreeDto[] parent2){
+    public FamilyTreeDto(Long id, String name, LocalDate birthday, FamilyTreeDto[] mother, FamilyTreeDto[] father){
         this.id = id;
         this.name = name;
         this.birthday = birthday;
-        this.parent1 = parent1;
-        this.parent2 = parent2;
+        this.mother = mother;
+        this.father = father;
     }
     public FamilyTreeDto(Long id, String name, LocalDate birthday){
         this.id = id;
@@ -47,19 +47,19 @@ public class FamilyTreeDto {
         this.birthday = birthday;
     }
 
-    public FamilyTreeDto[] getParent1() {
-        return parent1;
+    public FamilyTreeDto[] getMother() {
+        return mother;
     }
 
-    public void setParent1(FamilyTreeDto[] parent1) {
-        this.parent1 = parent1;
+    public void setMother(FamilyTreeDto[] mother) {
+        this.mother = mother;
     }
 
-    public FamilyTreeDto[] getParent2() {
-        return parent2;
+    public FamilyTreeDto[] getFather() {
+        return father;
     }
 
-    public void setParent2(FamilyTreeDto[] parent2) {
-        this.parent2 = parent2;
+    public void setFather(FamilyTreeDto[] father) {
+        this.father = father;
     }
 }

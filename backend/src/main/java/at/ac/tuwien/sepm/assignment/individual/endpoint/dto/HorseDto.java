@@ -12,21 +12,21 @@ public class HorseDto {
     private LocalDate birthday;
     private Gender gender;
     private Long sport;
-    private Long parentId1;
-    private Long parentId2;
+    private Long mother;
+    private Long father;
 
     public HorseDto() {
     }
 
-    public HorseDto(Long id, String name, String description, LocalDate birthday, Gender gender, Long sport, Long parentId1, Long parentId2) {
+    public HorseDto(Long id, String name, String description, LocalDate birthday, Gender gender, Long sport, Long mother, Long father) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.birthday = birthday;
         this.gender = gender;
         this.sport = sport;
-        this.parentId1 = parentId1;
-        this.parentId2 = parentId2;
+        this.mother = mother;
+        this.father = father;
     }
 
     public Long getId() {
@@ -74,20 +74,20 @@ public class HorseDto {
         this.description = description;
     }
 
-    public Long getParentId1() {
-        return parentId1;
+    public Long getMother() {
+        return mother;
     }
 
-    public void setParentId1(Long parentId1) {
-        this.parentId1 = parentId1;
+    public void setMother(Long mother) {
+        this.mother = mother;
     }
 
-    public Long getParentId2() {
-        return parentId2;
+    public Long getFather() {
+        return father;
     }
 
-    public void setParentId2(Long parentId2) {
-        this.parentId2 = parentId2;
+    public void setFather(Long father) {
+        this.father = father;
     }
 
     @Override
@@ -100,8 +100,8 @@ public class HorseDto {
             birthday.equals(horseDto.birthday) &&
             Objects.equals(gender,horseDto.gender) &&
             Objects.equals(sport,horseDto.sport) &&
-            Objects.equals(parentId1,horseDto.parentId1) &&
-            Objects.equals(parentId2,horseDto.parentId2);
+            Objects.equals(mother,horseDto.mother) &&
+            Objects.equals(father,horseDto.father);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class HorseDto {
     }
 
     protected String fieldsString() {
-        return "id=" + id + ", name='" + name + '\'' + ", description='" + description + '\'' + ", birthday=" + birthday + ", gender='" + gender + '\'' + ", sport='" + sport + '\'' + " parentId1='" + parentId1 +'\''+ " parentId2='" + parentId2 +'\'';
+        return "id=" + id + ", name='" + name + '\'' + ", description='" + description + '\'' + ", birthday=" + birthday + ", gender='" + gender + '\'' + ", sport='" + sport + '\'' + ", mother='" + mother +'\''+ ", father='" + father +'\'';
     }
 
     @Override

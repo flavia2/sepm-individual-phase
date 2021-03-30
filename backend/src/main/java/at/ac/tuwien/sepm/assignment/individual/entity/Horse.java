@@ -13,20 +13,20 @@ public class Horse {
     private LocalDate birthday;
     private Gender gender;
     private Long sport;
-    private Long parentId1;
-    private Long parentId2;
+    private Long mother;
+    private Long father;
 
     public Horse(){}
 
-    public Horse(Long id, String name, String description, LocalDate birthday, Gender gender, Long sport, Long parentId1, Long parentId2) {
+    public Horse(Long id, String name, String description, LocalDate birthday, Gender gender, Long sport, Long mother, Long father) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.birthday = birthday;
         this.gender = gender;
         this.sport = sport;
-        this.parentId1 = parentId1;
-        this.parentId2 = parentId2;
+        this.mother = mother;
+        this.father = father;
     }
 
     public Long getId() {
@@ -77,20 +77,20 @@ public class Horse {
         this.description = description;
     }
 
-    public Long getParentId1() {
-        return parentId1;
+    public Long getMother() {
+        return mother;
     }
 
-    public void setParentId1(Long parentId1) {
-        this.parentId1 = parentId1;
+    public void setMother(Long mother) {
+        this.mother = mother;
     }
 
-    public Long getParentId2() {
-        return parentId2;
+    public Long getFather() {
+        return father;
     }
 
-    public void setParentId2(Long parentId2) {
-        this.parentId2 = parentId2;
+    public void setFather(Long father) {
+        this.father = father;
     }
 
     @Override
@@ -103,8 +103,8 @@ public class Horse {
             birthday.equals(horse.birthday) &&
             Objects.equals(gender, horse.gender) &&
             Objects.equals(sport, horse.sport) &&
-            Objects.equals(parentId1,horse.parentId1) &&
-            Objects.equals(parentId2,horse.parentId2);
+            Objects.equals(mother,horse.mother) &&
+            Objects.equals(father,horse.father);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class Horse {
     }
 
     protected String fieldsString() {
-        return "id=" + id + ", name='" + name + '\'' + ", description='" + description + '\'' + ", birthday=" + birthday + ", gender='" + gender + '\'' + ", sport='" + sport + '\'' + ", parentId1='" + parentId1 +'\''+ ", parentId2='" + parentId2 +'\'';
+        return "id=" + id + ", name='" + name + '\'' + ", description='" + description + '\'' + ", birthday=" + birthday + ", gender='" + gender + '\'' + ", sport='" + sport + '\'' + " mother='" + mother +'\''+ " father='" + father +'\'';
     }
 
     @Override

@@ -175,7 +175,7 @@ public class HorseJdbcDao implements HorseDao {
     }
 
     @Override
-    public List<Horse> getFamilyTreeHorse(Long id, Long generations) {
+    public List<Horse> getFamilyTreeHorse(Long id, Long generations) throws PersistenceException, NotFoundException {
         LOGGER.trace("Getting family tree for horse with: id({}), generations({})", id, generations);
 
         String treeSql = "WITH RECURSIVE T (id, name, birthday, gender, parentId1, parentId2, generations) AS ("

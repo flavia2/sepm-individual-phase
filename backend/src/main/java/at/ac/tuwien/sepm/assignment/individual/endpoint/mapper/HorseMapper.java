@@ -53,4 +53,10 @@ public class HorseMapper {
         }
         return treeDto;
     }
+
+    public List<FamilyTreeDto> treeToList(FamilyTreeDto tree){
+        List<FamilyTreeDto> listTreeDto = new ArrayList<>();
+        listTreeDto.add(tree);
+        return listTreeDto;
+    }
 }
