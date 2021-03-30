@@ -16,7 +16,7 @@ VALUES (1, 'Polo', 'Polo is a horseback mounted team sport.')
      , (9, 'Barrel racing', 'Barrel racing is a rodeo event in which a horse and rider attempt to run a cloverleaf pattern around preset barrels in the fastest time.')
      , (10, 'Trail riding', 'Trail riding is riding outdoors on trails, bridle paths, and forest roads, but not on roads regularly used by motorised traffic. ')
 ;
-INSERT INTO horse (ID, NAME, DESCRIPTION, BIRTHDAY, GENDER, SPORT, PARENTID1, PARENTID2)
+INSERT INTO horse (ID, NAME, DESCRIPTION, BIRTHDAY, GENDER, SPORT, mother, father)
 VALUES (1,'Tae','cool','1998-06-04','male',1,null,null),
        (2,'Alice','cute','1997-03-27', 'female',2,null,null),
        (3,'Wendy','','2000-08-14','female',null,2,1),
