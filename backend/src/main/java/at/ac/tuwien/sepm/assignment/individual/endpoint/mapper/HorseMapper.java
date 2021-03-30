@@ -15,11 +15,11 @@ public class HorseMapper {
     public HorseDto entityToDto(Horse horse) {
         if (horse == null)
             return null;
-        return new HorseDto(horse.getId(), horse.getName(), horse.getDescription(),  horse.getBirthday(),horse.getGender(), horse.getSport(),horse.getParentId1(),horse.getParentId2());
+        return new HorseDto(horse.getId(), horse.getName(), horse.getDescription(),  horse.getBirthday(),horse.getGender(), horse.getSport(),horse.getMother(),horse.getFather());
     }
 
     public Horse dtoToEntity(HorseDto horseDto){
-        return new Horse(horseDto.getId(), horseDto.getName(), horseDto.getDescription(), horseDto.getBirthday(), horseDto.getGender(), horseDto.getSport(), horseDto.getParentId1(), horseDto.getParentId2());
+        return new Horse(horseDto.getId(), horseDto.getName(), horseDto.getDescription(), horseDto.getBirthday(), horseDto.getGender(), horseDto.getSport(), horseDto.getMother(), horseDto.getFather());
     }
 
     public List<HorseDto> entitiesToDto(List<Horse> horses) {
@@ -46,8 +46,8 @@ public class HorseMapper {
                 treeDto.setId(id);
                 treeDto.setName(horse.getName());
                 treeDto.setBirthday(horse.getBirthday());
-                treeDto.setParent1(new FamilyTreeDto[]{createTree(horse.getParentId1(),horses)});
-                treeDto.setParent2(new FamilyTreeDto[]{createTree(horse.getParentId2(),horses)});
+                treeDto.setMother(new FamilyTreeDto[]{createTree(horse.getMother(),horses)});
+                treeDto.setFather(new FamilyTreeDto[]{createTree(horse.getFather(),horses)});
 
             }
         }
