@@ -64,9 +64,9 @@ export class DetailComponent implements OnInit {
   }
 
   public editHorse(horse: Horse) {
-    this.horse = horse;
     this.horseService.editHorse(horse).subscribe(
       (nextHorse: Horse) => {
+        this.horses[this.horses.findIndex((item)=>item.id === horse.id)] = horse;
         this.editSuccess = true;
         setTimeout(() => {
           this.editSuccess = false;

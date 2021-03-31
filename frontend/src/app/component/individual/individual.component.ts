@@ -41,7 +41,6 @@ export class IndividualComponent implements OnInit {
       father: this.horseCopy.father
     };
     this.editHorse.emit(horse);
-    this.horse = JSON.parse(JSON.stringify(horse));
     this.modalClose.nativeElement.click();
   }
   public copyHorse(){

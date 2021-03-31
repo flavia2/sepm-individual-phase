@@ -94,6 +94,7 @@ export class HorseComponent implements OnInit {
   public editHorse(horse: Horse) {
     this.horseService.editHorse(horse).subscribe(
       () => {
+        this.horses[this.horses.findIndex((item)=>item.id === horse.id)] = horse;
         this.editSuccess = true;
         this.editSuccess = true;
         setTimeout(() => {
