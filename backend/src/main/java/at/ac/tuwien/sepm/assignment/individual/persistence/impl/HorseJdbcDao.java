@@ -221,7 +221,7 @@ public class HorseJdbcDao implements HorseDao {
     }
 
     @Override
-    public List<Horse> getAllChildrenByParentId(Long id) throws PersistenceException, NotFoundException {
+    public List<Horse> getAllChildrenByParentId(Long id) throws PersistenceException {
         LOGGER.trace("Getting the horse with id: {}", id);
         final String querySql = "SELECT * FROM " + TABLE_NAME + " WHERE mother = ? OR father = ?";
         List<Horse> horses;
@@ -233,8 +233,9 @@ public class HorseJdbcDao implements HorseDao {
             throw new PersistenceException("During finding children with parent id \"" + id + "\" an error occurred while accessing the database.", e);
         }
         if (horses.isEmpty()) {
-            LOGGER.error("[NotFoundException]: Error occurred during finding child horse.");
-            throw new NotFoundException("Could not find child horse with parent id " + id);
+            return null;
+            // LOGGER.error("[NotFoundException]: Error occurred during finding child horse.");
+            // throw new NotFoundException("Could not find child horse with parent id " + id);
         }
         return horses;
     }
