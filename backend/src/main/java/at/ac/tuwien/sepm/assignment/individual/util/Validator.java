@@ -183,4 +183,19 @@ public class Validator {
             throw new ValidationException("The id of the sport must be greater than 0.");
         }
     }
+
+    public void validateEditGender(Horse horse) throws ValidationException{
+        LOGGER.trace("Validating gender of horse.");
+        try {
+            if(horseDao.getAllChildrenByParentId(horse.getId())!= null){
+                if(!(horse.getGender().equals(horseDao.getHorseById(horse.getId()).getGender()))) {
+                    LOGGER.error("[ValidationException]: Error occurred during validating horse.");
+                    throw new ValidationException("The horse's gender cannot be edited because it has children.");
+                }
+            }
+        }catch (PersistenceException e){
+            LOGGER.error("[ServiceException]: Error occurred during reading horse. Full Stacktrace: " + e);
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }
