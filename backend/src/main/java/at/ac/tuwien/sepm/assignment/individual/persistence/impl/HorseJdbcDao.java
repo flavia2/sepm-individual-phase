@@ -220,6 +220,25 @@ public class HorseJdbcDao implements HorseDao {
         return horses;
     }
 
+    @Override
+    public List<Horse> getAllChildrenByParentId(Long id) throws PersistenceException, NotFoundException {
+        LOGGER.trace("Getting the horse with id: {}", id);
+        final String querySql = "SELECT * FROM " + TABLE_NAME + " WHERE mother = ? OR father = ?";
+        List<Horse> horses;
+        Object [] objects = {id, id};
+        try {
+            horses = jdbcTemplate.query(querySql, this::mapRow, objects);
+        } catch (DataAccessException e){
+            LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
+            throw new PersistenceException("During finding children with parent id \"" + id + "\" an error occurred while accessing the database.", e);
+        }
+        if (horses.isEmpty()) {
+            LOGGER.error("[NotFoundException]: Error occurred during finding child horse.");
+            throw new NotFoundException("Could not find child horse with parent id " + id);
+        }
+        return horses;
+    }
+
     private Horse mapRow(ResultSet resultSet, int i) throws SQLException {
         LOGGER.trace("Mapping through all SQL columns to get value of each column.");
         final Horse horse = new Horse();
