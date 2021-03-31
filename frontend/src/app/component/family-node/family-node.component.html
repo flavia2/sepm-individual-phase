@@ -1,3 +1,10 @@
+<ng-template #deleted>
+  <div *ngIf="deleteSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+    Horse <span class="font-weight-bold">{{ deletedHorseName }}</span> was successfully deleted!
+  </div>
+</ng-template>
+
+<ng-template [ngIf]="!delete" [ngIfElse]="deleted">
 <ul *ngIf="family">
   <li *ngFor="let node of family">
 <span *ngIf="node.name!=null" class="list-group-item d-flex justify-content-between">
@@ -10,8 +17,7 @@
   </span>
   <span>
     <span>{{node.birthday}}</span>
-    <span><button (click)="onDelete(node)" routerLink="/horses"
-                  class="btn btn-sm btn-outline-danger" type="button">
+    <span><button (click)="onDelete(node)" class="btn btn-sm btn-outline-danger" type="button">
           Delete
       </button></span>
   </span>
@@ -24,5 +30,5 @@
     </p>
   </li>
 </ul>
-
+</ng-template>
 

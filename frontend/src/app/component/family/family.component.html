@@ -1,6 +1,9 @@
-<div *ngIf="horse&&family">
+<div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Error! </strong> {{ errorMessage }}
+</div>
 
-  <h2>{{horse.name}} Family</h2>
+<div *ngIf="horse&&family">
+  <h2>Family tree of {{horse.name}}</h2>
 
   <label for="generations">Limit the shown generations:</label>
   <select id="generations" class="custom-select custom-select-lg mb-3" [(ngModel)]="selectedGen" (ngModelChange)="getFamilyWithGens()">
