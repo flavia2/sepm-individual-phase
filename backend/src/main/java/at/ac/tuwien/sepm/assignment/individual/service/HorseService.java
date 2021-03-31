@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.assignment.individual.service;
 
 import at.ac.tuwien.sepm.assignment.individual.entity.Horse;
 import at.ac.tuwien.sepm.assignment.individual.exception.NotFoundException;
+import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
 import at.ac.tuwien.sepm.assignment.individual.exception.ServiceException;
 import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 
@@ -80,4 +81,13 @@ public interface HorseService {
      */
     List<Horse> getFamilyTreeHorse(Long id, Long generations) throws ValidationException, ServiceException, NotFoundException;
 
+    /**
+     * Get the child horse with given parent horse ID.
+     *
+     * @param id of horse.
+     * @return all child horses with the specified parent id.
+     * @throws ServiceException will be thrown if if something goes wrong during data processing.
+     * @throws NotFoundException    will be thrown if the horse could not be found.
+     */
+    List<Horse> getAllChildrenByParentId(Long id) throws ServiceException, NotFoundException;
 }

@@ -59,6 +59,7 @@ public class HorseServiceImpl implements HorseService {
         LOGGER.trace("Editing the horse \"{}\" with id: {}", horse.getName(), horse.getId());
         validator.validateNewHorse(horse);
         validator.validateParents(horse);
+        validator.validateEditGender(horse);
         try {
             return dao.editHorse(horse);
         } catch (PersistenceException e) {
@@ -111,6 +112,18 @@ public class HorseServiceImpl implements HorseService {
             return dao.getFamilyTreeHorse(id, generations);
         } catch (PersistenceException e) {
             LOGGER.error("[ServiceException]: Error occurred during getting family tree of horse. Full Stacktrace: " + e);
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<Horse> getAllChildrenByParentId(Long id) throws ServiceException, NotFoundException {
+        LOGGER.trace("Getting all children from the database.");
+        validator.validateId(id);
+        try {
+            return dao.getAllChildrenByParentId(id);
+        } catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during searching horse. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(), e);
         }
     }
