@@ -95,6 +95,7 @@ export class HorseComponent implements OnInit {
     this.horseService.editHorse(horse).subscribe(
       () => {
         this.horses[this.horses.findIndex((item)=>item.id === horse.id)] = horse;
+        this.loadParents();
         this.editSuccess = true;
         this.editSuccess = true;
         setTimeout(() => {
@@ -108,6 +109,7 @@ export class HorseComponent implements OnInit {
   public deleteHorse(horse: Horse) {
     this.horses = this.horses.filter(h => h.id !== horse.id);
     this.horseService.deleteHorse(horse).subscribe();
+    this.resetForm();
     this.loadParents();
     this.deletedHorseName = horse.name;
     this.deleteSuccess = true;
@@ -121,7 +123,6 @@ export class HorseComponent implements OnInit {
       this.searchName, this.searchDescription, this.searchBirthday, this.searchGender, this.searchSport);
     this.horseService.searchHorse(sHorse).subscribe(
       horses => this.searchedHorses = horses,
-      // horses => this.horses = horses,
       error => {
         this.defaultServiceErrorHandling(error);
       this.resetSearch();
