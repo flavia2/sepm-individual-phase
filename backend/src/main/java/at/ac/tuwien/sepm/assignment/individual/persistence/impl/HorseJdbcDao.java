@@ -52,6 +52,7 @@ public class HorseJdbcDao implements HorseDao {
                 return pSt;
             }, keyHolder);
         } catch (DataAccessException e) {
+            LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
             throw new PersistenceException("During creating horse \"" + horse.getName() + "\" an error occurred while accessing the database.", e);
         }
         horse.setId(((Number) keyHolder.getKeys().get("id")).longValue());
@@ -66,10 +67,13 @@ public class HorseJdbcDao implements HorseDao {
         try {
             horses = jdbcTemplate.query(querySql, this::mapRow, id);
         } catch (DataAccessException e){
+            LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
             throw new PersistenceException("During finding horse with id \"" + id + "\" an error occurred while accessing the database.", e);
         }
-        if (horses.isEmpty()) throw new NotFoundException("Could not find horse with id " + id);
-
+        if (horses.isEmpty()) {
+            LOGGER.error("[NotFoundException]: Error occurred during finding horse.");
+            throw new NotFoundException("Could not find horse with id " + id);
+        }
         return horses.get(0);
     }
 
@@ -92,6 +96,7 @@ public class HorseJdbcDao implements HorseDao {
                 return pSt;
             });
         } catch (DataAccessException e) {
+            LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
             throw new PersistenceException("During editing horse with id \"" + horse.getId() + "\" an error occurred while accessing the database.", e);
         }
         return getHorseById(horse.getId());
@@ -110,6 +115,7 @@ public class HorseJdbcDao implements HorseDao {
                     return pSt;
                 });
             } catch (DataAccessException e) {
+                LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
                 throw new PersistenceException("During deleting horse with id \"" + id + "\" an error occurred while accessing the database.", e);
             }
         }
@@ -141,17 +147,21 @@ public class HorseJdbcDao implements HorseDao {
         try {
             horses = jdbcTemplate.query(searchSql, this::mapRow, objects);
         } catch (DataAccessException e){
+            LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
             throw new PersistenceException("Horse with following parameters could not be accessed: \n name:\"" + horse.getName() + "\" \n " +
                 "description:\"" + horse.getDescription() + "\" \n" +
                 "birthday:\"" + horse.getBirthday() + "\" \n" +
                 "gender:\"" + horse.getGender() + "\" \n" +
                 "sport:\"" + horse.getSport() + "\" \n", e);
         }
-        if (horses.isEmpty()) throw new NotFoundException("Could not find any horse for search with parameters: \n name:\"" + horse.getName() + "\" \n " +
-            "description:\"" + horse.getDescription() + "\" \n" +
-            "birthday:\"" + horse.getBirthday() + "\" \n" +
-            "gender:\"" + horse.getGender() + "\" \n" +
-            "sport:\"" + horse.getSport() + "\" \n");
+        if (horses.isEmpty()) {
+            LOGGER.error("[NotFoundException]: Error occurred during finding horse.");
+            throw new NotFoundException("Could not find any horse for search with parameters: \n name:\"" + horse.getName() + "\" \n " +
+                "description:\"" + horse.getDescription() + "\" \n" +
+                "birthday:\"" + horse.getBirthday() + "\" \n" +
+                "gender:\"" + horse.getGender() + "\" \n" +
+                "sport:\"" + horse.getSport() + "\" \n");
+        }
 
         return horses;
     }
@@ -164,6 +174,7 @@ public class HorseJdbcDao implements HorseDao {
         try {
             horses = jdbcTemplate.query(sql, this::mapRow);
         } catch (DataAccessException e){
+            LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
             throw new PersistenceException("Horse could not be found", e);
         }
         return horses;
@@ -198,9 +209,13 @@ public class HorseJdbcDao implements HorseDao {
         try {
             horses = jdbcTemplate.query(treeSql,  this::mapTreeRow, objects);
         } catch (DataAccessException e){
+            LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
             throw new PersistenceException("Could not get family tree of horse with id " + id, e);
         }
-        if (horses.isEmpty()) throw new NotFoundException("There is no horse with id " + id);
+        if (horses.isEmpty()) {
+            LOGGER.error("[NotFoundException]: Error occurred during finding horse.");
+            throw new NotFoundException("There is no horse with id " + id);
+        }
 
         return horses;
     }

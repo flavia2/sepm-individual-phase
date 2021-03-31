@@ -39,10 +39,14 @@ public class SportJdbcDao implements SportDao {
         try{
             sports = jdbcTemplate.query(sql, this::mapRow, id);
         }catch (DataAccessException e){
+            LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
             throw new PersistenceException("During getting sport with id " + id + " there was a problem accessing the database.", e);
         }
 
-        if (sports.isEmpty()) throw new NotFoundException("Could not find sport with id " + id);
+        if (sports.isEmpty()) {
+            LOGGER.error("[NotFoundException]: Error occurred during finding sport.");
+            throw new NotFoundException("Could not find sport with id " + id);
+        }
 
         return sports.get(0);
     }
@@ -61,6 +65,7 @@ public class SportJdbcDao implements SportDao {
                 return pSt;
             }, keyHolder);
         } catch (DataAccessException e) {
+            LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
             throw new PersistenceException("Sport with name \"" + sport.getName() + "\" could not be created.", e);
         }
         sport.setId(((Number) keyHolder.getKeys().get("id")).longValue());
@@ -75,6 +80,7 @@ public class SportJdbcDao implements SportDao {
         try {
             sports = jdbcTemplate.query(sql, this::mapRow);
         } catch (DataAccessException e){
+            LOGGER.error("[PersistenceException]: Error occurred during accessing the database. Full Stacktrace: "+ e);
             throw new PersistenceException("Sports could not be found", e);
         }
 
