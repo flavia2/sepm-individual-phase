@@ -36,6 +36,7 @@ public class SportServiceImpl implements SportService {
         try{
             return dao.getOneById(id);
         }catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during getting sport. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -47,6 +48,7 @@ public class SportServiceImpl implements SportService {
         try{
             return dao.createSport(sport);
         } catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during creating sport. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -57,6 +59,7 @@ public class SportServiceImpl implements SportService {
         try {
             return dao.getAllSports();
         } catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during getting all sports. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(), e);
         }
     }

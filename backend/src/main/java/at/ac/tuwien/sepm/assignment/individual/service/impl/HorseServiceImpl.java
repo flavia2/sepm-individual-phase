@@ -37,6 +37,7 @@ public class HorseServiceImpl implements HorseService {
         try {
             return dao.createHorse(horse);
         } catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during creating horse. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(),e);
         }
     }
@@ -48,6 +49,7 @@ public class HorseServiceImpl implements HorseService {
         try {
             return dao.getHorseById(id);
         } catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during getting horse. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(),e);
         }
     }
@@ -60,6 +62,7 @@ public class HorseServiceImpl implements HorseService {
         try {
             return dao.editHorse(horse);
         } catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred editing getting horse. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(),e);
         }
     }
@@ -71,6 +74,7 @@ public class HorseServiceImpl implements HorseService {
         try {
             dao.deleteHorse(id);
         } catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during deleting horse. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -82,6 +86,7 @@ public class HorseServiceImpl implements HorseService {
         try {
             return dao.searchHorse(horse);
         } catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during searching horse. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -92,6 +97,7 @@ public class HorseServiceImpl implements HorseService {
         try {
             return dao.getAllHorses();
         } catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during getting all horses. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -104,6 +110,7 @@ public class HorseServiceImpl implements HorseService {
         try {
             return dao.getFamilyTreeHorse(id, generations);
         } catch (PersistenceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during getting family tree of horse. Full Stacktrace: " + e);
             throw new ServiceException(e.getMessage(), e);
         }
     }
