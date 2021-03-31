@@ -27,15 +27,18 @@ public class Validator {
     public void validateNewSport(Sport sport) throws ValidationException {
         LOGGER.trace("Validating parameters of new sport created.");
         if (sport.getName() == null) {
+            LOGGER.error("[ValidationException]: Error occurred during validating sport.");
             throw new ValidationException("The sport needs a name.");
         }
         if (sport.getName() != null) {
             if (sport.getName().length() == 0 || sport.getName().length() > 255) {
+                LOGGER.error("[ValidationException]: Error occurred during validating sport.");
                 throw new ValidationException("The name of the sport must be in the range between 1 and 255 characters.");
             }
         }
         if (sport.getDescription() != null) {
             if (sport.getDescription().length() <= 0 || sport.getDescription().length() > 500) {
+                LOGGER.error("[ValidationException]: Error occurred during validating sport.");
                 throw new ValidationException("The description of the sport must be in the range between 1 and 500 characters.\"");
             }
         }
@@ -45,30 +48,37 @@ public class Validator {
         LOGGER.trace("Validating parameters of new horse created.");
 
         if (horse.getName() == null && horse.getBirthday() == null && horse.getDescription() == null && horse.getGender() == null && horse.getSport() == null) {
+            LOGGER.error("[ValidationException]: Error occurred during validating horse.");
             throw new ValidationException("The horse needs parameters: name, gender and birthday.");
         }
         if (horse.getName() == null) {
+            LOGGER.error("[ValidationException]: Error occurred during validating horse.");
             throw new ValidationException("The horse needs a name.");
         }
         if (horse.getName() != null) {
             if (horse.getName().length() == 0 || horse.getName().length() > 255) {
+                LOGGER.error("[ValidationException]: Error occurred during validating horse.");
                 throw new ValidationException("The name of the horse must be in the range between 1 and 255 characters.");
             }
         }
         if (horse.getDescription() != null) {
             if (horse.getName().length() == 0 || horse.getDescription().length() > 500) {
+                LOGGER.error("[ValidationException]: Error occurred during validating horse.");
                 throw new ValidationException("The description of the horse must be in the range between 1 and 500 characters.");
             }
         }
         if (horse.getBirthday() == null) {
+            LOGGER.error("[ValidationException]: Error occurred during validating horse.");
             throw new ValidationException("The horse needs a birthday.");
         }
         if (horse.getBirthday() != null) {
             if (horse.getBirthday().isBefore(LocalDate.now().minusYears(30)) || horse.getBirthday().isAfter(LocalDate.now())) {
+                LOGGER.error("[ValidationException]: Error occurred during validating horse.");
                 throw new ValidationException("The horse´s age is not valid.");
             }
         }
         if (horse.getGender() == null) {
+            LOGGER.error("[ValidationException]: Error occurred during validating horse.");
             throw new ValidationException("The horse needs a gender.");
         }
 
@@ -77,9 +87,11 @@ public class Validator {
     public void validateId(Long id) throws ValidationException {
         LOGGER.trace("Validating id of the horse.");
         if (id == null) {
+            LOGGER.error("[ValidationException]: Error occurred during validating horse.");
             throw new ValidationException("The horse needs an id.");
         }
         if (id <= 0) {
+            LOGGER.error("[ValidationException]: Error occurred during validating horse.");
             throw new ValidationException("The id of the horse must be greater than 0.");
         }
     }
@@ -88,16 +100,19 @@ public class Validator {
         LOGGER.trace("Validating search parameters of a horse.");
         if (horse.getName() != null) {
             if (horse.getName().length() == 0 || horse.getName().length() > 255) {
+                LOGGER.error("[ValidationException]: Error occurred during validating horse.");
                 throw new ValidationException("The name of the horse must be in the range between 1 and 255 characters.");
             }
         }
         if (horse.getDescription() != null) {
             if (horse.getDescription().length() > 500) {
+                LOGGER.error("[ValidationException]: Error occurred during validating horse.");
                 throw new ValidationException("The description can only have up to 500 characters.");
             }
         }
 
         if (horse.getBirthday() != null) {
+            LOGGER.error("[ValidationException]: Error occurred during validating horse.");
             if (horse.getBirthday().isBefore(LocalDate.of(1990, 1, 1)) || horse.getBirthday().isAfter(LocalDate.now())) {
                 throw new ValidationException("The horse´s age is not valid.");
             }
@@ -109,6 +124,7 @@ public class Validator {
         LOGGER.trace("Validating generations for family tree request.");
         if (generations != null) {
             if (generations <= 0) {
+                LOGGER.error("[ValidationException]: Error occurred during validating horse.");
                 throw new ValidationException("Generations must be greater than 0.");
             }
         }
@@ -120,9 +136,11 @@ public class Validator {
             try {
                 Horse parent1 = horseDao.getHorseById(horse.getMother());
                 if (parent1.getBirthday().isAfter(horse.getBirthday())) {
+                    LOGGER.error("[ValidationException]: Error occurred during validating horse.");
                     throw new ValidationException("Horse must be younger than mother's age: " + parent1.getBirthday());
                 }
             } catch (PersistenceException e) {
+                LOGGER.error("[ServiceException]: Error occurred during reading horse's mother. Full Stacktrace: " + e);
                 throw new ServiceException(e.getMessage(), e);
             }
         }
@@ -130,9 +148,11 @@ public class Validator {
             try {
                 Horse parent2 = horseDao.getHorseById(horse.getFather());
                 if (parent2.getBirthday().isAfter(horse.getBirthday())) {
+                    LOGGER.error("[ValidationException]: Error occurred during validating horse.");
                     throw new ValidationException("Horse must be younger than father's age: " + parent2.getBirthday());
                 }
             } catch (PersistenceException e) {
+                LOGGER.error("[ServiceException]: Error occurred during reading horse's father. Full Stacktrace: " + e);
                 throw new ServiceException(e.getMessage(), e);
             }
         }
@@ -141,9 +161,11 @@ public class Validator {
                 Horse parent1 = horseDao.getHorseById(horse.getMother());
                 Horse parent2 = horseDao.getHorseById(horse.getFather());
                 if (parent1.getGender().equals(parent2.getGender())) {
-                    throw new ValidationException("Parents must have differnt gender.");
+                    LOGGER.error("[ValidationException]: Error occurred during validating horse.");
+                    throw new ValidationException("Parents must have different gender.");
                 }
             }catch (PersistenceException e) {
+                LOGGER.error("[ServiceException]: Error occurred during reading horse's parents. Full Stacktrace: " + e);
                 throw new ServiceException(e.getMessage(), e);
             }
 
@@ -153,9 +175,11 @@ public class Validator {
     public void validateSportId(Long id) throws ValidationException {
         LOGGER.trace("Validating id of the sport.");
         if (id == null) {
+            LOGGER.error("[ValidationException]: Error occurred during validating sport.");
             throw new ValidationException("The sport needs an id.");
         }
         if (id <= 0) {
+            LOGGER.error("[ValidationException]: Error occurred during validating sport.");
             throw new ValidationException("The id of the sport must be greater than 0.");
         }
     }
