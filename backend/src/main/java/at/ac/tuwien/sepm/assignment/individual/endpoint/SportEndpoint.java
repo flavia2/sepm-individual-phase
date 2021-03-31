@@ -38,13 +38,13 @@ public class SportEndpoint {
         try {
             return sportMapper.entityToDto(sportService.getOneById(id));
         } catch (ServiceException e) {
-            LOGGER.error("[ServiceException]: Error occurred during reading sport. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occurred during validating input parameters of sport. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occurred during finding sport. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
@@ -56,10 +56,10 @@ public class SportEndpoint {
             Sport sport = sportMapper.dtoToEntity(sportDto);
             return sportMapper.entityToDto(sportService.createSport(sport));
         } catch (ServiceException e) {
-            LOGGER.error("[ServiceException]: Error occurred during reading sport. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during creating sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occurred during validating input parameters of sport. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during creating sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         }
     }
@@ -69,7 +69,7 @@ public class SportEndpoint {
         try {
             return sportMapper.entitiesToDto(sportService.getAllSports());
         }catch (ServiceException e) {
-            LOGGER.error("[ServiceException]: Error occurred during reading sport. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting all sports. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         }
     }

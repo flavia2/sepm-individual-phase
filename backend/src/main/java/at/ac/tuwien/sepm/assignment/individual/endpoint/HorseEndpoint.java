@@ -45,10 +45,10 @@ public class HorseEndpoint {
             Horse horse = horseMapper.dtoToEntity(horseDto);
             return horseMapper.entityToDto(horseService.createHorse(horse));
         } catch (ServiceException e) {
-            LOGGER.error("[ServiceException]: Error occurred during reading horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during creating horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occurred during validating input parameters of horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during creating horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         }
     }
@@ -60,13 +60,13 @@ public class HorseEndpoint {
         try {
             return horseMapper.entityToDto(horseService.getHorseById(id));
         }  catch (ServiceException e) {
-            LOGGER.error("[ServiceException]: Error occurred during reading horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occurred during validating input parameters of horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occurred during finding horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
@@ -80,13 +80,13 @@ public class HorseEndpoint {
             Horse horse = horseMapper.dtoToEntity(horseDto);
             return horseMapper.entityToDto(horseService.editHorse(horse));
         } catch (ServiceException e) {
-            LOGGER.error("[ServiceException]: Error occurred during reading horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during editing horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occurred during validating input parameters of horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during editing horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occurred during finding horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during editing horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
@@ -98,13 +98,13 @@ public class HorseEndpoint {
         try {
             horseService.deleteHorse(id);
         } catch (ServiceException e) {
-            LOGGER.error("[ServiceException]: Error occurred during reading horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during deleting horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occurred during finding horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during deleting horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occurred during validating input parameters of horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during deleting horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         }
     }
@@ -123,13 +123,13 @@ public class HorseEndpoint {
         try {
             return horseMapper.entitiesToDto(horseService.searchHorse(horseMapper.paramsToEntity(name, description, birthday, gender, sport)));
         } catch (ServiceException e) {
-            LOGGER.error("[ServiceException]: Error occurred during reading horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during searching horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occurred during finding horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during searching horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occurred during validating input parameters of horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during searching horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         }
     }
@@ -140,7 +140,7 @@ public class HorseEndpoint {
         try {
             return horseMapper.entitiesToDto(horseService.getAllHorses());
         } catch (ServiceException e) {
-            LOGGER.error("[ServiceException]: Error occurred during reading horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting all horses. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         }
     }
@@ -152,13 +152,13 @@ public class HorseEndpoint {
         try {
             return horseMapper.treeToList(horseMapper.createTree(id,horseService.getFamilyTreeHorse(id, generations)));
         } catch (ServiceException e) {
-            LOGGER.error("[ServiceException]: Error occurred during reading horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting family tree of horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occurred during validating input parameters of horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting family tree of horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
         } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occurred during finding horse. Full Stacktrace: " + e);
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting family tree of horse. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
