@@ -72,6 +72,6 @@ public interface HorseDao {
      * @throws PersistenceException will be thrown if something goes wrong while accessing the persistent data store.
      * @throws NotFoundException will be thrown if the horse could not be found.
      */
-    List<Horse> getFamilyTreeHorse(Long id, Long generations);
+    List<Horse> getFamilyTreeHorse(Long id, Long generations) throws PersistenceException, NotFoundException;
 
 }
