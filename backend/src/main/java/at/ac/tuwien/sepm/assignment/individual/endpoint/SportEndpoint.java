@@ -4,7 +4,7 @@ import at.ac.tuwien.sepm.assignment.individual.endpoint.dto.SportDto;
 import at.ac.tuwien.sepm.assignment.individual.endpoint.mapper.SportMapper;
 import at.ac.tuwien.sepm.assignment.individual.entity.Sport;
 import at.ac.tuwien.sepm.assignment.individual.exception.NotFoundException;
-import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
+import at.ac.tuwien.sepm.assignment.individual.exception.ServiceException;
 import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 import at.ac.tuwien.sepm.assignment.individual.service.SportService;
 import java.lang.invoke.MethodHandles;
@@ -37,17 +37,14 @@ public class SportEndpoint {
         LOGGER.info("GET " + BASE_URL + "/{}", id);
         try {
             return sportMapper.entityToDto(sportService.getOneById(id));
-        } catch (PersistenceException e) {
-            LOGGER.error("[PersistenceException]: Error occurred in persistence layer. Full Stacktrace: " + e);
+        } catch (ServiceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during reading sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occurred in service layer. Full Stacktrace: " + e);
+            LOGGER.error("[ValidationException]: Error occurred during validating input parameters of sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
-        } catch (NullPointerException e) {
-            LOGGER.error("[NullPointerException]: Error occurred in service layer. Full Stacktrace: " + e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         } catch (NotFoundException e) {
-            LOGGER.error("[NotFoundException]: Error occurred in persistence layer. Full Stacktrace: " + e);
+            LOGGER.error("[NotFoundException]: Error occurred during finding sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
@@ -58,15 +55,12 @@ public class SportEndpoint {
         try {
             Sport sport = sportMapper.dtoToEntity(sportDto);
             return sportMapper.entityToDto(sportService.createSport(sport));
-        } catch (PersistenceException e) {
-            LOGGER.error("[PersistenceException]: Error occurred in persistence layer. Full Stacktrace: " + e);
+        } catch (ServiceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during reading sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         } catch (ValidationException e) {
-            LOGGER.error("[ValidationException]: Error occurred in service layer. Full Stacktrace: " + e);
+            LOGGER.error("[ValidationException]: Error occurred during validating input parameters of sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage(), e);
-        } catch (NullPointerException e){
-            LOGGER.error("[NullPointerException]: Error occurred in service layer. Full Stacktrace: " + e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
     @GetMapping
@@ -74,8 +68,8 @@ public class SportEndpoint {
         LOGGER.info("GET " + BASE_URL);
         try {
             return sportMapper.entitiesToDto(sportService.getAllSports());
-        }catch (PersistenceException e) {
-            LOGGER.error("[PersistenceException]: Error occurred in persistence layer. Full Stacktrace: " + e);
+        }catch (ServiceException e) {
+            LOGGER.error("[ServiceException]: Error occurred during reading sport. Full Stacktrace: " + e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
         }
     }
