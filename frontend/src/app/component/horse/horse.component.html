@@ -25,7 +25,7 @@
 
   <div *ngIf="!searching">
     <div *ngIf="horses.length == 0"><h2>There are currently no horses at Wendy´s Family Tree</h2></div>
-    <div *ngIf="horses.length > 0"><h1>All our horses:</h1></div>
+    <div *ngIf="horses.length > 0"><h1 class="noPaddingH1">All our horses:</h1></div>
   <app-individual *ngFor="let horse of horses"
                   [horse]="horse"
                   [sports]="sports"

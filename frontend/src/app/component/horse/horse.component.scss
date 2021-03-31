@@ -1,6 +1,10 @@
-ul{
-  list-style-type: none;
+app-individual{
+  border-bottom: 5px !important;
+  border-bottom-color: darkgray !important;
 }
-form{
-  padding-right: 2em;
+h1{
+  padding-top: 2rem;
+}
+h1.noPaddingH1{
+  padding-top: 0;
 }

@@ -1,5 +1,5 @@
 <div class="list-group-item">
-  <button (click)="toggleDescription()">{{ sport.name }}</button>
+  <button class="toggle" (click)="toggleDescription()">{{ sport.name }}</button>
   <div *ngIf="showDescription">
     <i>{{sport.description}}</i>
   </div>
