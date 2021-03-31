@@ -87,7 +87,6 @@ public interface HorseService {
      * @param id of horse.
      * @return all child horses with the specified parent id.
      * @throws ServiceException will be thrown if if something goes wrong during data processing.
-     * @throws NotFoundException    will be thrown if the horse could not be found.
      */
     List<Horse> getAllChildrenByParentId(Long id) throws ServiceException, NotFoundException;
 }

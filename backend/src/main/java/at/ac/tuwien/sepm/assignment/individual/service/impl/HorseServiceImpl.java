@@ -117,7 +117,7 @@ public class HorseServiceImpl implements HorseService {
     }
 
     @Override
-    public List<Horse> getAllChildrenByParentId(Long id) throws ServiceException, NotFoundException {
+    public List<Horse> getAllChildrenByParentId(Long id) throws ServiceException {
         LOGGER.trace("Getting all children from the database.");
         validator.validateId(id);
         try {
