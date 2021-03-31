@@ -6,6 +6,8 @@ import at.ac.tuwien.sepm.assignment.individual.entity.Sport;
 import java.lang.invoke.MethodHandles;
 import java.time.LocalDate;
 
+import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
+import at.ac.tuwien.sepm.assignment.individual.exception.ServiceException;
 import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 import at.ac.tuwien.sepm.assignment.individual.persistence.HorseDao;
 import org.slf4j.Logger;
@@ -25,7 +27,7 @@ public class Validator {
     public void validateNewSport(Sport sport) throws ValidationException {
         LOGGER.trace("Validating parameters of new sport created.");
         if (sport.getName() == null) {
-            throw new NullPointerException("The sport needs a name.");
+            throw new ValidationException("The sport needs a name.");
         }
         if (sport.getName() != null) {
             if (sport.getName().length() == 0 || sport.getName().length() > 255) {
@@ -43,10 +45,10 @@ public class Validator {
         LOGGER.trace("Validating parameters of new horse created.");
 
         if (horse.getName() == null && horse.getBirthday() == null && horse.getDescription() == null && horse.getGender() == null && horse.getSport() == null) {
-            throw new NullPointerException("The horse needs parameters: name, gender and birthday.");
+            throw new ValidationException("The horse needs parameters: name, gender and birthday.");
         }
         if (horse.getName() == null) {
-            throw new NullPointerException("The horse needs a name.");
+            throw new ValidationException("The horse needs a name.");
         }
         if (horse.getName() != null) {
             if (horse.getName().length() == 0 || horse.getName().length() > 255) {
@@ -59,7 +61,7 @@ public class Validator {
             }
         }
         if (horse.getBirthday() == null) {
-            throw new NullPointerException("The horse needs a birthday.");
+            throw new ValidationException("The horse needs a birthday.");
         }
         if (horse.getBirthday() != null) {
             if (horse.getBirthday().isBefore(LocalDate.now().minusYears(30)) || horse.getBirthday().isAfter(LocalDate.now())) {
@@ -67,17 +69,17 @@ public class Validator {
             }
         }
         if (horse.getGender() == null) {
-            throw new NullPointerException("The horse needs a gender.");
+            throw new ValidationException("The horse needs a gender.");
         }
 
     }
 
     public void validateId(Long id) throws ValidationException {
         LOGGER.trace("Validating id of the horse.");
-        if (id == null){
-            throw new NullPointerException("The horse needs an id.");
+        if (id == null) {
+            throw new ValidationException("The horse needs an id.");
         }
-        if (id <= 0){
+        if (id <= 0) {
             throw new ValidationException("The id of the horse must be greater than 0.");
         }
     }
@@ -115,30 +117,43 @@ public class Validator {
     public void validateParents(Horse horse) throws ValidationException {
         LOGGER.trace("Validating parameters of parents.");
         if (horse.getMother() != null) {
-            Horse parent1 = horseDao.getHorseById(horse.getMother());
-            if (parent1.getBirthday().isAfter(horse.getBirthday())) {
-                throw new ValidationException("Horse must be younger than mother's age: " + parent1.getBirthday());
+            try {
+                Horse parent1 = horseDao.getHorseById(horse.getMother());
+                if (parent1.getBirthday().isAfter(horse.getBirthday())) {
+                    throw new ValidationException("Horse must be younger than mother's age: " + parent1.getBirthday());
+                }
+            } catch (PersistenceException e) {
+                throw new ServiceException(e.getMessage(), e);
             }
         }
         if (horse.getFather() != null) {
-            Horse parent2 = horseDao.getHorseById(horse.getFather());
-            if (parent2.getBirthday().isAfter(horse.getBirthday())) {
-                throw new ValidationException("Horse must be younger than father's age: " + parent2.getBirthday());
+            try {
+                Horse parent2 = horseDao.getHorseById(horse.getFather());
+                if (parent2.getBirthday().isAfter(horse.getBirthday())) {
+                    throw new ValidationException("Horse must be younger than father's age: " + parent2.getBirthday());
+                }
+            } catch (PersistenceException e) {
+                throw new ServiceException(e.getMessage(), e);
             }
         }
         if (horse.getMother() != null && horse.getFather() != null) {
-            Horse parent1 = horseDao.getHorseById(horse.getMother());
-            Horse parent2 = horseDao.getHorseById(horse.getFather());
-            if (parent1.getGender().equals(parent2.getGender())) {
-                throw new ValidationException("Parents must have differnt gender.");
+            try {
+                Horse parent1 = horseDao.getHorseById(horse.getMother());
+                Horse parent2 = horseDao.getHorseById(horse.getFather());
+                if (parent1.getGender().equals(parent2.getGender())) {
+                    throw new ValidationException("Parents must have differnt gender.");
+                }
+            }catch (PersistenceException e) {
+                throw new ServiceException(e.getMessage(), e);
             }
+
         }
     }
 
     public void validateSportId(Long id) throws ValidationException {
         LOGGER.trace("Validating id of the sport.");
         if (id == null) {
-            throw new NullPointerException("The sport needs an id.");
+            throw new ValidationException("The sport needs an id.");
         }
         if (id <= 0) {
             throw new ValidationException("The id of the sport must be greater than 0.");
