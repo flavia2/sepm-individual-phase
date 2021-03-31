@@ -69,12 +69,8 @@ export class HorseComponent implements OnInit {
 
 
   }
-  loadParents(){
-    this.female = this.horses.filter(f => f.gender === 'female');
-    this.male = this.horses.filter(m => m.gender === 'male');
-  }
 
-  onAdd() {
+  public onAdd() {
     const newHorse = new Horse(0, this.name, this.description, this.birthday, this.gender, this.sport, this.mother, this.father);
     this.horseService.createHorse(newHorse).subscribe(
       (horse: Horse) => {
@@ -95,7 +91,7 @@ export class HorseComponent implements OnInit {
 
   public editHorse(horse: Horse) {
     this.horseService.editHorse(horse).subscribe(
-      (nextHorse: Horse) => {
+      () => {
         this.editSuccess = true;
         this.editSuccess = true;
         setTimeout(() => {
@@ -145,6 +141,11 @@ export class HorseComponent implements OnInit {
     this.mother = null;
     this.father = null;
     this.loadParents();
+  }
+
+  private loadParents(){
+    this.female = this.horses.filter(f => f.gender === 'female');
+    this.male = this.horses.filter(m => m.gender === 'male');
   }
 
   private defaultServiceErrorHandling(error: any) {

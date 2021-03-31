@@ -29,7 +29,7 @@ export class IndividualComponent implements OnInit {
       m.id !== this.horse.id);
   }
 
-  onEdit() {
+  public onEdit() {
     const horse = {
       id: this.horseCopy.id,
       name: this.horseCopy.name,
@@ -44,18 +44,17 @@ export class IndividualComponent implements OnInit {
     this.horse = JSON.parse(JSON.stringify(horse));
     this.modalClose.nativeElement.click();
   }
-  copyHorse(){
+  public copyHorse(){
     this.horseCopy = JSON.parse(JSON.stringify(this.horse));
   }
-  getDataTarget(){
+  public getDataTarget(){
     return '#editHorse' + this.horse.id;
   }
-  getId(){
+  public getId(){
     return 'editHorse' + this.horse.id;
   }
 
-
-  onDelete(horse) {
+  public onDelete(horse) {
     this.deleteHorse.emit(horse);
   }
 }
