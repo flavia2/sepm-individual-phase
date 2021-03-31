@@ -163,4 +163,14 @@ public class HorseEndpoint {
         }
     }
 
+    @GetMapping(value = "/children/{id}")
+    public List<HorseDto> getAllChildren(@PathVariable("id") Long id) {
+        LOGGER.info("GET " + BASE_URL +"/children/{}", id);
+        try {
+            return horseMapper.entitiesToDto(horseService.getAllChildrenByParentId(id));
+        } catch (ServiceException e) {
+            LOGGER.error("[ResponseStatusException]: Error occurred during getting all horses. Full Stacktrace: " + e);
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(), e);
+        }
+    }
 }
