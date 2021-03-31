@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HorseService} from '../../service/horse.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SportService} from '../../service/sport.service';
 import {Horse} from '../../dto/horse';
 import {Sport} from '../../dto/sport';
@@ -14,13 +14,17 @@ export class DetailComponent implements OnInit {
   error = false;
   errorMessage = '';
   editSuccess = false;
+  deleteSuccess = false;
+  deletedHorseName: string;
+
   horse: Horse;
   horses: Horse[];
   sports: Sport[];
 
   constructor(private horseService: HorseService,
               private sportService: SportService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              public router: Router) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(
@@ -76,6 +80,13 @@ export class DetailComponent implements OnInit {
   public deleteHorse(horse: Horse) {
     this.horses = this.horses.filter(h => h.id !== horse.id);
     this.horseService.deleteHorse(horse).subscribe();
+
+    this.deletedHorseName = horse.name;
+    this.deleteSuccess = true;
+    setTimeout(() => {
+      this.deleteSuccess = false;
+      this.router.navigate(['/horses']);
+    }, 5000);
   }
 
   private defaultServiceErrorHandling(error: any) {

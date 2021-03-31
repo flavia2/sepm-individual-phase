@@ -18,6 +18,8 @@ export class HorseComponent implements OnInit {
   errorMessage = '';
   addSuccess = false;
   editSuccess = false;
+  deleteSuccess = false;
+  deletedHorseName: string;
 
   horse: Horse;
   horses: Horse[];
@@ -106,6 +108,11 @@ export class HorseComponent implements OnInit {
     this.horses = this.horses.filter(h => h.id !== horse.id);
     this.horseService.deleteHorse(horse).subscribe();
     this.loadParents();
+    this.deletedHorseName = horse.name;
+    this.deleteSuccess = true;
+    setTimeout(() => {
+      this.deleteSuccess = false;
+    }, 3000);
   }
 
   public onSearch() {

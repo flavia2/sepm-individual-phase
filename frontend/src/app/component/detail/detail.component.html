@@ -5,6 +5,13 @@
   Your changes have successfully been saved!
 </div>
 
+<ng-template #deleted>
+<div *ngIf="deleteSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+  Horse <span class="font-weight-bold">{{ deletedHorseName }}</span> was successfully deleted!
+</div>
+</ng-template>
+
+<ng-template [ngIf]="!deleteSuccess" [ngIfElse]="deleted">
 <div *ngIf="horse && horses">
   <span class="d-flex justify-content-center">
     <span *ngIf="horse.gender === 'female'" class="female badge badge-pill">FEMALE</span>
@@ -34,7 +41,7 @@
       <div *ngFor="let parent of horses" class="list-group-flush">
         <div *ngIf="parent.id == horse.mother" class="list-group-item">
           <button routerLink="/detail/{{horse.mother}}" class="btn link" role="button">
-            <span *ngIf="parent.gender == 'female'"><b>Mother: </b></span> {{ parent.name }}
+            <b>Mother: </b> {{ parent.name }}
           </button>
         </div>
       </div>
@@ -43,10 +50,11 @@
       <div *ngFor="let parent of horses" class="list-group-flush">
         <div *ngIf="parent.id == horse.father" class="list-group-item">
           <button routerLink="/detail/{{horse.father}}" class="btn link" role="button">
-            <span *ngIf="parent.gender == 'male'"><b>Father: </b></span> {{ parent.name }}
+            <b>Father: </b> {{ parent.name }}
           </button>
         </div>
       </div>
     </li>
   </ul>
 </div>
+</ng-template>

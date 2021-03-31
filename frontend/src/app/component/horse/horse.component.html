@@ -10,6 +10,10 @@
   Your changes have successfully been saved!
 </div>
 
+<div *ngIf="deleteSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+  Horse <span class="font-weight-bold">{{ deletedHorseName }}</span> was successfully deleted!
+</div>
+
 
 <div *ngIf="router.url === '/horses'">
 
