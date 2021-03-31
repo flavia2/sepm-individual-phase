@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.assignment.individual.service.impl;
 import at.ac.tuwien.sepm.assignment.individual.entity.Sport;
 import at.ac.tuwien.sepm.assignment.individual.exception.NotFoundException;
 import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
+import at.ac.tuwien.sepm.assignment.individual.exception.ServiceException;
 import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 import at.ac.tuwien.sepm.assignment.individual.persistence.SportDao;
 import at.ac.tuwien.sepm.assignment.individual.service.SportService;
@@ -29,36 +30,34 @@ public class SportServiceImpl implements SportService {
     }
 
     @Override
-    public Sport getOneById(Long id) throws ValidationException, PersistenceException, NotFoundException {
+    public Sport getOneById(Long id) throws ValidationException, ServiceException, NotFoundException {
         LOGGER.trace("Getting the spot with id: {}", id);
         validator.validateSportId(id);
         try{
             return dao.getOneById(id);
-        }catch (PersistenceException e){
-            throw e;
-        }catch (NotFoundException e){
-            throw e;
+        }catch (PersistenceException e) {
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public Sport createSport(Sport sport) throws ValidationException, PersistenceException {
+    public Sport createSport(Sport sport) throws ValidationException, ServiceException {
         LOGGER.trace("Creating a sport with name: {}", sport.getName());
         validator.validateNewSport(sport);
         try{
             return dao.createSport(sport);
-        } catch (PersistenceException e){
-            throw e;
+        } catch (PersistenceException e) {
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<Sport> getAllSports() throws PersistenceException{
+    public List<Sport> getAllSports() throws ServiceException{
         LOGGER.trace("Getting all sports.");
         try {
             return dao.getAllSports();
-        } catch (PersistenceException e){
-            throw e;
+        } catch (PersistenceException e) {
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
