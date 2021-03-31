@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.assignment.individual.service.impl;
 import at.ac.tuwien.sepm.assignment.individual.entity.Horse;
 import at.ac.tuwien.sepm.assignment.individual.exception.NotFoundException;
 import at.ac.tuwien.sepm.assignment.individual.exception.PersistenceException;
+import at.ac.tuwien.sepm.assignment.individual.exception.ServiceException;
 import at.ac.tuwien.sepm.assignment.individual.exception.ValidationException;
 import at.ac.tuwien.sepm.assignment.individual.persistence.HorseDao;
 import at.ac.tuwien.sepm.assignment.individual.service.HorseService;
@@ -29,91 +30,81 @@ public class HorseServiceImpl implements HorseService {
 
 
     @Override
-    public Horse createHorse(Horse horse) throws ValidationException, PersistenceException {
+    public Horse createHorse(Horse horse) throws ValidationException, ServiceException {
         LOGGER.trace("Creating a horse with name: {}", horse.getName());
         validator.validateNewHorse(horse);
         validator.validateParents(horse);
         try {
             return dao.createHorse(horse);
         } catch (PersistenceException e) {
-            throw e;
+            throw new ServiceException(e.getMessage(),e);
         }
     }
 
     @Override
-    public Horse getHorseById(Long id) throws ValidationException, PersistenceException, NotFoundException {
+    public Horse getHorseById(Long id) throws ValidationException, ServiceException, NotFoundException {
         LOGGER.trace("Getting the horse with id: {}", id);
         validator.validateId(id);
         try {
             return dao.getHorseById(id);
         } catch (PersistenceException e) {
-            throw e;
-        } catch (NotFoundException e){
-            throw e;
+            throw new ServiceException(e.getMessage(),e);
         }
     }
 
     @Override
-    public Horse editHorse(Horse horse) throws PersistenceException, NotFoundException, ValidationException {
+    public Horse editHorse(Horse horse) throws ValidationException, ServiceException, NotFoundException {
         LOGGER.trace("Editing the horse \"{}\" with id: {}", horse.getName(), horse.getId());
         validator.validateNewHorse(horse);
         validator.validateParents(horse);
         try {
             return dao.editHorse(horse);
         } catch (PersistenceException e) {
-            throw e;
-        } catch (NotFoundException e){
-            throw e;
+            throw new ServiceException(e.getMessage(),e);
         }
     }
 
     @Override
-    public void deleteHorse(Long id) throws PersistenceException, NotFoundException, ValidationException {
+    public void deleteHorse(Long id) throws ValidationException, ServiceException, NotFoundException {
         LOGGER.trace("Deleting the horse with id: {}", id);
         validator.validateId(id);
         try {
             dao.deleteHorse(id);
         } catch (PersistenceException e) {
-            throw e;
-        } catch (NotFoundException e){
-            throw e;
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<Horse> searchHorse(Horse horse) throws PersistenceException, NotFoundException, ValidationException {
+    public List<Horse> searchHorse(Horse horse) throws ValidationException, ServiceException, NotFoundException {
         LOGGER.trace("Searching for horses with following search parameters: name ({}), description ({}), birthday ({}), gender ({}), sport ({})", horse.getName(), horse.getDescription(), horse.getBirthday(), horse.getGender(), horse.getSport());
         validator.validateSearch(horse);
         try {
             return dao.searchHorse(horse);
         } catch (PersistenceException e) {
-            throw e;
-        } catch (NotFoundException e){
-            throw e;
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<Horse> getAllHorses() throws PersistenceException {
+    public List<Horse> getAllHorses() throws ServiceException {
         LOGGER.trace("Getting all horses from the database.");
         try {
             return dao.getAllHorses();
         } catch (PersistenceException e) {
-            throw e;
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<Horse> getFamilyTreeHorse(Long id, Long generations) throws PersistenceException,NotFoundException,ValidationException {
+    public List<Horse> getFamilyTreeHorse(Long id, Long generations) throws ValidationException, ServiceException, NotFoundException {
         LOGGER.trace("Getting family tree for horse with: id({}), generations({})", id, generations);
         validator.validateId(id);
         validator.validateGenerations(generations);
         try {
             return dao.getFamilyTreeHorse(id, generations);
         } catch (PersistenceException e) {
-            throw e;
-        } catch (NotFoundException e){
-            throw e;
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 }
