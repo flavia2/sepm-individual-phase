@@ -1,5 +1,7 @@
-Flavia Helbig 01625713
-SUM: 46h
+**Flavia Helbig **
+
+- Matrikelnummer: 01625713
+- SUM: 46h
 
 | date | duration | story |
 | ------ | ------ | ------ |
